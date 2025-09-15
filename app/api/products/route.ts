@@ -97,6 +97,15 @@ export async function GET(request: NextRequest) {
     let products: any[] = [];
     let totalCount = 0;
 
+    // For Vercel deployment, use mock data if database doesn't exist
+    if (!dbExists) {
+      // Redirect to mock API
+      const mockResponse = await fetch(`${request.nextUrl.origin}/api/mock-products?${searchParams.toString()}`);
+      if (mockResponse.ok) {
+        return NextResponse.json(await mockResponse.json());
+      }
+    }
+
     if (dbExists) {
       try {
         // Try to get real data from database

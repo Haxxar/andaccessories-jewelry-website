@@ -9,7 +9,11 @@ const nextConfig: NextConfig = {
   typescript: {
     // ignoreBuildErrors: true,
   },
-  serverExternalPackages: ['sqlite3', 'better-sqlite3']
+  // Remove SQLite packages for Vercel deployment
+  // serverExternalPackages: ['sqlite3', 'better-sqlite3'],
+  experimental: {
+    serverComponentsExternalPackages: []
+  }
 };
 
 export default nextConfig;

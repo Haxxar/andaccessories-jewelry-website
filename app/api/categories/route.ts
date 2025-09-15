@@ -38,6 +38,18 @@ export async function GET(request: NextRequest) {
     let brands: any[] = [];
     let materials: any[] = [];
 
+    // For Vercel deployment, use mock data if database doesn't exist
+    if (!dbExists) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          categories: sampleCategories,
+          brands: sampleBrands,
+          materials: sampleMaterials
+        }
+      });
+    }
+
     if (dbExists) {
       try {
         // Get all unique categories with product counts
