@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://andaccessories.dk/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /db-viewer/
+Disallow: /debug-*
+
+# Allow all product and category pages
+Allow: /produkt/
+Allow: /kategori/
+Allow: /kategorier/
+Allow: /brands/
+Allow: /om-os/
+Allow: /privatlivspolitik/
+
+# Crawl delay (optional)
+Crawl-delay: 1
