@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   try {
     const dbPath = path.join(process.cwd(), 'data', 'products.db');
     if (fs.existsSync(dbPath)) {
-      const { Database } = require('better-sqlite3');
+      const Database = require('better-sqlite3');
       const db = new Database(dbPath);
       
       const product = db.prepare(`
