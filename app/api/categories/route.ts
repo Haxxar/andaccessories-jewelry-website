@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbStatements } from '@/lib/database';
+import { supabaseAdmin } from '@/lib/supabase';
 import fs from 'fs';
 import path from 'path';
 
@@ -37,6 +38,99 @@ export async function GET(request: NextRequest) {
     let categories: any[] = [];
     let brands: any[] = [];
     let materials: any[] = [];
+
+    // Try Supabase first (for production)
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      try {
+        // Get categories with product counts
+        const { data: categories, error: categoriesError } = await supabaseAdmin
+          .from('products')
+          .select('category, price')
+          .eq('in_stock', true);
+
+        if (categoriesError) {
+          console.error('Supabase categories error:', categoriesError);
+          throw categoriesError;
+        }
+
+        // Process categories data
+        const categoryStats = categories?.reduce((acc: any, product: any) => {
+          const cat = product.category;
+          if (!acc[cat]) {
+            acc[cat] = { category: cat, product_count: 0, prices: [] };
+          }
+          acc[cat].product_count++;
+          acc[cat].prices.push(product.price);
+          return acc;
+        }, {});
+
+        const processedCategories = Object.values(categoryStats || {}).map((cat: any) => ({
+          category: cat.category,
+          product_count: cat.product_count,
+          min_price: Math.min(...cat.prices),
+          max_price: Math.max(...cat.prices),
+          avg_price: Math.round(cat.prices.reduce((a: number, b: number) => a + b, 0) / cat.prices.length)
+        }));
+
+        // Get brands with product counts
+        const { data: brands, error: brandsError } = await supabaseAdmin
+          .from('products')
+          .select('brand')
+          .eq('in_stock', true);
+
+        if (brandsError) {
+          console.error('Supabase brands error:', brandsError);
+          throw brandsError;
+        }
+
+        const brandStats = brands?.reduce((acc: any, product: any) => {
+          const brand = product.brand;
+          acc[brand] = (acc[brand] || 0) + 1;
+          return acc;
+        }, {});
+
+        const processedBrands = Object.entries(brandStats || {}).map(([brand, count]) => ({
+          brand,
+          product_count: count
+        }));
+
+        // Get materials with product counts
+        const { data: materials, error: materialsError } = await supabaseAdmin
+          .from('products')
+          .select('material')
+          .eq('in_stock', true)
+          .not('material', 'is', null);
+
+        if (materialsError) {
+          console.error('Supabase materials error:', materialsError);
+          throw materialsError;
+        }
+
+        const materialStats = materials?.reduce((acc: any, product: any) => {
+          const material = product.material;
+          acc[material] = (acc[material] || 0) + 1;
+          return acc;
+        }, {});
+
+        const processedMaterials = Object.entries(materialStats || {}).map(([material, count]) => ({
+          material,
+          product_count: count
+        }));
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            categories: processedCategories,
+            brands: processedBrands,
+            materials: processedMaterials
+          }
+        });
+
+      } catch (error) {
+        console.error('Supabase query error:', error);
+        // Fall back to local database or sample data
+      }
+    }
 
     // For Vercel deployment, use mock data if database doesn't exist
     if (!dbExists) {

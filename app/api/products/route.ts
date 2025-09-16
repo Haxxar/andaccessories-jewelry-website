@@ -97,6 +97,93 @@ export async function GET(request: NextRequest) {
     let products: any[] = [];
     let totalCount = 0;
 
+    // Try Supabase first (for production)
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      try {
+        let query = supabaseAdmin
+          .from('products')
+          .select('*')
+          .eq('in_stock', true);
+
+        // Apply filters
+        if (category && category !== 'alle') {
+          query = query.eq('category', category);
+        }
+        
+        if (brand && brand !== 'alle') {
+          query = query.eq('brand', brand);
+        }
+        
+        if (search) {
+          query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,brand.ilike.%${search}%`);
+        }
+
+        // Apply sorting
+        switch (sort) {
+          case 'price_low':
+            query = query.order('price', { ascending: true });
+            break;
+          case 'price_high':
+            query = query.order('price', { ascending: false });
+            break;
+          case 'discount':
+            query = query.order('discount', { ascending: false });
+            break;
+          case 'brand':
+            query = query.order('brand', { ascending: true });
+            break;
+          case 'random':
+            query = query.order('id', { ascending: true }); // Will randomize in application
+            break;
+          default: // newest
+            query = query.order('updated_at', { ascending: false });
+        }
+
+        // Apply pagination
+        const { data: supabaseProducts, error, count } = await query
+          .range(offset, offset + limit - 1)
+          .limit(limit);
+
+        if (error) {
+          console.error('Supabase error:', error);
+          throw error;
+        }
+
+        // Randomize if random sort was requested
+        if (sort === 'random' && supabaseProducts) {
+          supabaseProducts.sort(() => Math.random() - 0.5);
+        }
+
+        const totalCount = count || 0;
+        const totalPages = Math.ceil(totalCount / limit);
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            products: supabaseProducts || [],
+            pagination: {
+              page,
+              limit,
+              totalCount,
+              totalPages,
+              hasNext: page < totalPages,
+              hasPrev: page > 1
+            },
+            filters: {
+              category,
+              brand,
+              search,
+              sort
+            }
+          }
+        });
+
+      } catch (error) {
+        console.error('Supabase query error:', error);
+        // Fall back to local database or mock data
+      }
+    }
+
     // For Vercel deployment, use mock data if database doesn't exist
     if (!dbExists) {
       // Redirect to mock API

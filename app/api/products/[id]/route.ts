@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { productFeedFetcher } from '@/lib/productFeedFetcher';
+import { supabaseAdmin } from '@/lib/supabase';
 import path from 'path';
 import fs from 'fs';
 
@@ -23,6 +24,55 @@ export async function GET(
     
     let product = null;
     
+    // Try Supabase first (for production)
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      try {
+        // Try to get product by ID first, then by external_id
+        let { data: supabaseProduct, error } = await supabaseAdmin
+          .from('products')
+          .select('*')
+          .eq('id', productId)
+          .single();
+
+        if (error || !supabaseProduct) {
+          // Try by external_id
+          const { data: supabaseProductByExternal, error: externalError } = await supabaseAdmin
+            .from('products')
+            .select('*')
+            .eq('external_id', productId)
+            .single();
+
+          if (externalError || !supabaseProductByExternal) {
+            return NextResponse.json(
+              { success: false, error: 'Product not found' },
+              { status: 404 }
+            );
+          }
+          product = supabaseProductByExternal;
+        } else {
+          product = supabaseProduct;
+        }
+
+        // Parse keywords from JSON if it's a string
+        if (product && typeof product.keywords === 'string') {
+          try {
+            product.keywords = JSON.parse(product.keywords);
+          } catch (e) {
+            product.keywords = [];
+          }
+        }
+
+        return NextResponse.json({
+          success: true,
+          data: product
+        });
+
+      } catch (error) {
+        console.error('Supabase query error:', error);
+        // Fall back to local database or mock data
+      }
+    }
+
     if (dbExists) {
       // Try to get product by internal ID first, then by external ID
       product = productFeedFetcher.getProductById(parseInt(productId));
