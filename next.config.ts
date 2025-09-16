@@ -11,9 +11,9 @@ const nextConfig: NextConfig = {
   },
   // Remove SQLite packages for Vercel deployment
   // serverExternalPackages: ['sqlite3', 'better-sqlite3'],
-  experimental: {
-    serverComponentsExternalPackages: []
-  }
+        // experimental: {
+        //   serverComponentsExternalPackages: []
+        // }
 };
 
 export default nextConfig;

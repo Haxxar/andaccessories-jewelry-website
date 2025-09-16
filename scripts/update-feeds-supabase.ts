@@ -1,13 +1,23 @@
+import { config } from 'dotenv';
 import { supabaseAdmin } from '../lib/supabase';
 import { productFeedFetcher } from '../lib/productFeedFetcher';
+
+// Load environment variables from .env.local
+config({ path: '.env.local' });
 
 async function updateFeedsToSupabase() {
   console.log('🔄 Starting feed update to Supabase...');
 
   try {
     // Check if Supabase is configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      console.error('❌ Supabase not configured. Please set environment variables.');
+    const supabaseAdminClient = supabaseAdmin();
+    if (!supabaseAdminClient) {
+      console.error('❌ Supabase not configured. Please set environment variables:');
+      console.error('   - NEXT_PUBLIC_SUPABASE_URL');
+      console.error('   - NEXT_PUBLIC_SUPABASE_ANON_KEY');
+      console.error('   - SUPABASE_SERVICE_ROLE_KEY');
+      console.error('');
+      console.error('Create a .env.local file with these variables or set them in your deployment environment.');
       return;
     }
 
@@ -22,7 +32,7 @@ async function updateFeedsToSupabase() {
 
     // Clear existing products in Supabase
     console.log('🗑️ Clearing existing products in Supabase...');
-    const { error: deleteError } = await supabaseAdmin
+    const { error: deleteError } = await supabaseAdminClient
       .from('products')
       .delete()
       .neq('id', 0); // Delete all products
@@ -63,7 +73,7 @@ async function updateFeedsToSupabase() {
         updated_at: product.updated_at
       }));
 
-      const { error: insertError } = await supabaseAdmin
+      const { error: insertError } = await supabaseAdminClient
         .from('products')
         .insert(supabaseProducts);
 
@@ -79,7 +89,7 @@ async function updateFeedsToSupabase() {
     console.log(`🎉 Successfully updated Supabase with ${insertedCount} products!`);
 
     // Verify the data
-    const { data: verifyData, error: verifyError } = await supabaseAdmin
+    const { data: verifyData, error: verifyError } = await supabaseAdminClient
       .from('products')
       .select('id')
       .limit(1);

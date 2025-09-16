@@ -25,10 +25,11 @@ export async function GET(
     let product = null;
     
     // Try Supabase first (for production)
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const supabaseAdminClient = supabaseAdmin();
+    if (supabaseAdminClient) {
       try {
         // Try to get product by ID first, then by external_id
-        let { data: supabaseProduct, error } = await supabaseAdmin
+        let { data: supabaseProduct, error } = await supabaseAdminClient
           .from('products')
           .select('*')
           .eq('id', productId)
@@ -36,7 +37,7 @@ export async function GET(
 
         if (error || !supabaseProduct) {
           // Try by external_id
-          const { data: supabaseProductByExternal, error: externalError } = await supabaseAdmin
+          const { data: supabaseProductByExternal, error: externalError } = await supabaseAdminClient
             .from('products')
             .select('*')
             .eq('external_id', productId)

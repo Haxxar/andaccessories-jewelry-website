@@ -40,10 +40,11 @@ export async function GET(request: NextRequest) {
     let materials: any[] = [];
 
     // Try Supabase first (for production)
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const supabaseAdminClient = supabaseAdmin();
+    if (supabaseAdminClient) {
       try {
         // Get categories with product counts
-        const { data: categories, error: categoriesError } = await supabaseAdmin
+        const { data: categories, error: categoriesError } = await supabaseAdminClient
           .from('products')
           .select('category, price')
           .eq('in_stock', true);
@@ -73,7 +74,7 @@ export async function GET(request: NextRequest) {
         }));
 
         // Get brands with product counts
-        const { data: brands, error: brandsError } = await supabaseAdmin
+        const { data: brands, error: brandsError } = await supabaseAdminClient
           .from('products')
           .select('brand')
           .eq('in_stock', true);
@@ -95,7 +96,7 @@ export async function GET(request: NextRequest) {
         }));
 
         // Get materials with product counts
-        const { data: materials, error: materialsError } = await supabaseAdmin
+        const { data: materials, error: materialsError } = await supabaseAdminClient
           .from('products')
           .select('material')
           .eq('in_stock', true)

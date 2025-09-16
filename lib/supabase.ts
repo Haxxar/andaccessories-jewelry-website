@@ -1,20 +1,43 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase configuration
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+// Lazy initialization of Supabase clients
+let _supabase: any = null;
+let _supabaseAdmin: any = null;
 
-// Client for browser/client-side operations
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Admin client for server-side operations (with service role key)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
+function getSupabaseClient() {
+  if (_supabase) return _supabase;
+  
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  
+  if (supabaseUrl && supabaseAnonKey) {
+    _supabase = createClient(supabaseUrl, supabaseAnonKey);
   }
-});
+  
+  return _supabase;
+}
+
+function getSupabaseAdmin() {
+  if (_supabaseAdmin) return _supabaseAdmin;
+  
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  
+  if (supabaseUrl && supabaseServiceKey) {
+    _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    });
+  }
+  
+  return _supabaseAdmin;
+}
+
+// Export the lazy client functions
+export const supabase = getSupabaseClient;
+export const supabaseAdmin = getSupabaseAdmin;
 
 // Database types
 export interface Product {

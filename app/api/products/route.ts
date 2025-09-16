@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { productFeedFetcher } from '@/lib/productFeedFetcher';
 import { dbStatements } from '@/lib/database';
+import { supabaseAdmin } from '@/lib/supabase';
 import fs from 'fs';
 import path from 'path';
 
@@ -98,9 +99,10 @@ export async function GET(request: NextRequest) {
     let totalCount = 0;
 
     // Try Supabase first (for production)
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const supabaseAdminClient = supabaseAdmin();
+    if (supabaseAdminClient) {
       try {
-        let query = supabaseAdmin
+        let query = supabaseAdminClient
           .from('products')
           .select('*')
           .eq('in_stock', true);
