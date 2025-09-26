@@ -21,7 +21,7 @@ async function initializeDatabase() {
     const recentLogs = productFeedFetcher.getRecentFeedLogs(3);
     console.log('📋 Recent feed logs:');
     recentLogs.forEach(log => {
-      console.log(`  - ${log.status}: ${log.products_updated} products updated (${log.execution_time_ms}ms)`);
+      console.log(`  - ${log.status}: ${(log as any).products_updated || log.products_fetched} products updated (${(log as any).execution_time_ms || 'N/A'}ms)`);
     });
     
     console.log('🎉 Database is ready! You can now start your Next.js application.');

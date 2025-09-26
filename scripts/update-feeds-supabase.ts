@@ -75,7 +75,7 @@ async function updateFeedsToSupabase() {
 
       const { error: insertError } = await supabaseAdminClient
         .from('products')
-        .insert(supabaseProducts);
+        .insert(supabaseProducts as any);
 
       if (insertError) {
         console.error(`❌ Error inserting batch ${Math.floor(i / batchSize) + 1}:`, insertError);

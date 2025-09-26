@@ -265,7 +265,7 @@ export async function GET(request: NextRequest) {
           const allParams = [...queryParams, limit, offset];
           const countParams = [...queryParams];
 
-          products = dbStatements.db.prepare(productsQuery).all(...allParams);
+          products = dbStatements.db.prepare(productsQuery).all(...allParams) as { id: number; title: string; price: number; old_price?: number; image_url: string; product_url: string; brand: string; category: string; material: string; shop: string; in_stock: boolean }[];
           const countResult = dbStatements.db.prepare(countQuery).get(...countParams) as { count: number };
           totalCount = countResult.count;
         }
@@ -273,7 +273,7 @@ export async function GET(request: NextRequest) {
         // Parse keywords from JSON string
         products = products.map(product => ({
           ...product,
-          keywords: product.keywords ? JSON.parse(product.keywords) : []
+          keywords: (product as any).keywords ? JSON.parse((product as any).keywords) : []
         }));
 
         console.log(`✅ Using real database data: ${products.length} products, total: ${totalCount}`);

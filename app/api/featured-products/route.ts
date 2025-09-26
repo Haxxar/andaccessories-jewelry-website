@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
         // Parse keywords from JSON string
         featuredProducts = featuredProducts.map(product => ({
           ...product,
-          keywords: product.keywords ? JSON.parse(product.keywords) : []
+          keywords: (product as any).keywords ? JSON.parse((product as any).keywords) : []
         }));
 
         console.log(`✅ Using real featured products: ${featuredProducts.length} products`);

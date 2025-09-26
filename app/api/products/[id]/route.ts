@@ -55,11 +55,11 @@ export async function GET(
         }
 
         // Parse keywords from JSON if it's a string
-        if (product && typeof product.keywords === 'string') {
+        if (product && typeof (product as any).keywords === 'string') {
           try {
-            product.keywords = JSON.parse(product.keywords);
+            (product as any).keywords = JSON.parse((product as any).keywords);
           } catch {
-            product.keywords = [];
+            (product as any).keywords = [];
           }
         }
 
@@ -122,7 +122,7 @@ export async function GET(
     // Parse keywords from JSON string
     const processedProduct = {
       ...product,
-      keywords: product.keywords ? JSON.parse(product.keywords) : []
+      keywords: (product as any).keywords ? JSON.parse((product as any).keywords) : []
     };
 
     return NextResponse.json({

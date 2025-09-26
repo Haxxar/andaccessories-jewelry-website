@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         LIMIT 1000
       `).all()
       
-      productPages = products.map((product: { id: number; updated_at: string }) => ({
+      productPages = (products as { id: number; updated_at: string }[]).map((product) => ({
         url: `${baseUrl}/produkt/${product.id}`,
         lastModified: new Date(product.updated_at),
         changeFrequency: 'weekly' as const,

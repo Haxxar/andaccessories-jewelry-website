@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       const db = new Database(dbPath);
       
       const product = db.prepare(`
-        SELECT title, description, brand, category, price, old_price, image_url, shop
+        SELECT title, description, brand, category, price, old_price, image_url, shop, material
         FROM products 
         WHERE id = ? AND in_stock = 1
-      `).get(id);
+      `).get(id) as { title: string; description: string; brand: string; category: string; price: number; old_price?: number; image_url: string; shop: string; material: string } | undefined;
       
       db.close();
       

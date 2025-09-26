@@ -446,7 +446,7 @@ export class ProductFeedFetcher {
     `;
     
     const allParams = [...params, limit, offset];
-    return dbStatements.db.prepare(query).all(...allParams);
+    return dbStatements.db.prepare(query).all(...allParams) as Product[];
   }
 
   // Method to get featured products (biggest discounts)
@@ -460,17 +460,17 @@ export class ProductFeedFetcher {
       ORDER BY ((old_price - price) / old_price) DESC
       LIMIT ?
     `;
-    return dbStatements.db.prepare(query).all(limit);
+    return dbStatements.db.prepare(query).all(limit) as Product[];
   }
 
   // Method to get product by ID
   getProductById(id: number): Product | undefined {
-    return dbStatements.getProductById.get(id);
+    return dbStatements.getProductById.get(id) as Product | undefined;
   }
 
   // Method to get product by external ID
   getProductByExternalId(externalId: string): Product | undefined {
-    return dbStatements.getProductByExternalId.get(externalId);
+    return dbStatements.getProductByExternalId.get(externalId) as Product | undefined;
   }
 
   // Method to get product counts
