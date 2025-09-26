@@ -14,12 +14,12 @@ try {
   `).all();
 
   console.log('\n📊 All brands in database:');
-  brands.forEach((brand, index) => {
+  brands.forEach((brand: any, index) => {
     console.log(`${index + 1}. "${brand.brand}" (${brand.count} products)`);
   });
 
   // Check total products
-  const totalProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products').get();
+  const totalProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products').get() as { count: number };
   console.log(`\n📈 Total products: ${totalProducts?.count}`);
 
 } catch (error) {
@@ -27,6 +27,8 @@ try {
 }
 
 process.exit(0);
+
+
 
 
 

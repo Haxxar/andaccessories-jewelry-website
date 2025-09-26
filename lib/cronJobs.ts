@@ -3,6 +3,7 @@ import { productFeedFetcher } from './productFeedFetcher';
 
 class CronJobManager {
   private jobs: Map<string, cron.ScheduledTask> = new Map();
+  private jobStatus: Map<string, boolean> = new Map();
   private isRunning = false;
 
   constructor() {
@@ -78,6 +79,7 @@ class CronJobManager {
     
     this.jobs.forEach((job, name) => {
       job.start();
+      this.jobStatus.set(name, true);
       console.log(`✅ Started cron job: ${name}`);
     });
 
@@ -89,6 +91,7 @@ class CronJobManager {
     
     this.jobs.forEach((job, name) => {
       job.stop();
+      this.jobStatus.set(name, false);
       console.log(`⏹️ Stopped cron job: ${name}`);
     });
 
@@ -98,7 +101,7 @@ class CronJobManager {
   getStatus(): { [key: string]: boolean } {
     const status: { [key: string]: boolean } = {};
     this.jobs.forEach((job, name) => {
-      status[name] = job.getStatus() === 'scheduled';
+      status[name] = this.jobStatus.get(name) || false;
     });
     return status;
   }
@@ -121,19 +124,19 @@ class CronJobManager {
         name: 'dailyFeedUpdate',
         schedule: '0 6 * * *',
         description: 'Daily product feed update at 6 AM',
-        running: this.jobs.get('dailyFeedUpdate')?.getStatus() === 'scheduled'
+        running: this.jobStatus.get('dailyFeedUpdate') || false
       },
       {
         name: 'weeklyCleanup',
         schedule: '0 2 * * 0',
         description: 'Weekly cleanup of old data on Sundays at 2 AM',
-        running: this.jobs.get('weeklyCleanup')?.getStatus() === 'scheduled'
+        running: this.jobStatus.get('weeklyCleanup') || false
       },
       {
         name: 'healthCheck',
         schedule: '0 * * * *',
         description: 'Hourly health check and product count',
-        running: this.jobs.get('healthCheck')?.getStatus() === 'scheduled'
+        running: this.jobStatus.get('healthCheck') || false
       }
     ];
   }

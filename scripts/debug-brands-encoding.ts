@@ -14,7 +14,7 @@ try {
   `).all();
 
   console.log('\n📊 All brands in database:');
-  brands.forEach((brand, index) => {
+  brands.forEach((brand: any, index) => {
     console.log(`${index + 1}. "${brand.brand}" (${brand.count} products)`);
     // Check for special characters
     if (brand.brand && /[øæåØÆÅ]/.test(brand.brand)) {
@@ -38,7 +38,7 @@ try {
       SELECT COUNT(*) as count
       FROM products 
       WHERE brand = ? OR shop = ?
-    `).get(variation, variation);
+    `).get(variation, variation) as { count: number };
     
     if (products && products.count > 0) {
       console.log(`✅ Found ${products.count} products with brand/shop: "${variation}"`);
@@ -56,11 +56,11 @@ try {
        OR shop LIKE '%Abelstedt%'
        OR category LIKE '%Abelstedt%'
     LIMIT 5
-  `).all();
+  `).all() as any[];
 
   console.log('\n🔍 Products containing "Abelstedt" in any field:');
   if (abelstedtInAnyField.length > 0) {
-    abelstedtInAnyField.forEach(product => {
+    abelstedtInAnyField.forEach((product: any) => {
       console.log(`- ID: ${product.id}`);
       console.log(`  Title: "${product.title}"`);
       console.log(`  Brand: "${product.brand}"`);
@@ -78,11 +78,11 @@ try {
     FROM products 
     WHERE feed_url LIKE '%bannerid=100221%'
     LIMIT 5
-  `).all();
+  `).all() as any[];
 
   console.log('\n🔍 Products from Abelstedt feed (bannerid=100221):');
   if (abelstedtFeedProducts.length > 0) {
-    abelstedtFeedProducts.forEach(product => {
+    abelstedtFeedProducts.forEach((product: any) => {
       console.log(`- ID: ${product.id}`);
       console.log(`  Title: "${product.title}"`);
       console.log(`  Brand: "${product.brand}"`);
@@ -99,9 +99,9 @@ try {
     SELECT DISTINCT brand
     FROM products 
     WHERE brand IS NOT NULL
-  `).all();
+  `).all() as any[];
 
-  allBrands.forEach(brand => {
+  allBrands.forEach((brand: any) => {
     if (brand.brand) {
       const hasSpecialChars = /[øæåØÆÅ]/.test(brand.brand);
       const hasQuestionMarks = brand.brand.includes('?');
@@ -121,6 +121,8 @@ try {
 }
 
 process.exit(0);
+
+
 
 
 

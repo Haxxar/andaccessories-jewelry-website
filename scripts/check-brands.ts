@@ -15,7 +15,7 @@ try {
   `).all();
 
   console.log('\n📊 Brands in database:');
-  brands.forEach((brand, index) => {
+  brands.forEach((brand: any, index) => {
     console.log(`${index + 1}. ${brand.brand}: ${brand.count} products`);
   });
 
@@ -25,11 +25,11 @@ try {
     FROM products 
     WHERE brand LIKE '%Abelstedt%' OR shop LIKE '%Abelstedt%'
     LIMIT 5
-  `).all();
+  `).all() as any[];
 
   console.log('\n🔍 Abelstedt products:');
   if (abelstedtProducts.length > 0) {
-    abelstedtProducts.forEach(product => {
+    abelstedtProducts.forEach((product: any) => {
       console.log(`- ID: ${product.id}, Title: ${product.title}, Brand: ${product.brand}, Shop: ${product.shop}`);
     });
   } else {
@@ -37,8 +37,8 @@ try {
   }
 
   // Check total products
-  const totalProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products').get();
-  const inStockProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products WHERE in_stock = 1').get();
+  const totalProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products').get() as { count: number };
+  const inStockProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products WHERE in_stock = 1').get() as { count: number };
   
   console.log(`\n📈 Total products: ${totalProducts?.count}`);
   console.log(`📈 In stock products: ${inStockProducts?.count}`);
@@ -48,6 +48,8 @@ try {
 }
 
 process.exit(0);
+
+
 
 
 
