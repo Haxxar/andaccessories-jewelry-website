@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
     const allParams = [...queryParams, limit, offset];
     const countParams = [...queryParams];
 
-    const products = dbStatements.db.prepare(productsQuery).all(...allParams);
+    const products = dbStatements.db.prepare(productsQuery).all(...allParams) as any[];
     const countResult = dbStatements.db.prepare(countQuery).get(...countParams) as { count: number };
     const totalCount = countResult.count;
 
@@ -184,5 +184,7 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+
 
 
