@@ -131,16 +131,16 @@ export async function GET(request: NextRequest) {
       GROUP BY category, brand, material
     `;
 
-    const filterResults = dbStatements.db.prepare(filtersQuery).all(...queryParams);
+    const filterResults = dbStatements.db.prepare(filtersQuery).all(...queryParams) as any[];
     
     // Process filter results
     const availableFilters = {
-      categories: [...new Set(filterResults.map(f => f.category).filter(Boolean))],
-      brands: [...new Set(filterResults.map(f => f.brand).filter(Boolean))],
-      materials: [...new Set(filterResults.map(f => f.material).filter(Boolean))],
+      categories: [...new Set(filterResults.map((f: any) => f.category).filter(Boolean))],
+      brands: [...new Set(filterResults.map((f: any) => f.brand).filter(Boolean))],
+      materials: [...new Set(filterResults.map((f: any) => f.material).filter(Boolean))],
       priceRange: {
-        min: Math.min(...filterResults.map(f => f.min_price).filter(Boolean)),
-        max: Math.max(...filterResults.map(f => f.max_price).filter(Boolean))
+        min: Math.min(...filterResults.map((f: any) => f.min_price).filter(Boolean)),
+        max: Math.max(...filterResults.map((f: any) => f.max_price).filter(Boolean))
       }
     };
 
