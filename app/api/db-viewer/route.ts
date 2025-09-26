@@ -42,8 +42,8 @@ export async function GET() {
     `).all();
 
     // Get total counts
-    const totalProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products').get();
-    const inStockProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products WHERE in_stock = 1').get();
+    const totalProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products').get() as { count: number } | undefined;
+    const inStockProducts = dbStatements.db.prepare('SELECT COUNT(*) as count FROM products WHERE in_stock = 1').get() as { count: number } | undefined;
 
     return NextResponse.json({
       success: true,
