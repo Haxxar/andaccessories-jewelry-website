@@ -1,4 +1,5 @@
 
+import Link from 'next/link';
 import CookieConsent from './CookieConsent';
 
 const Header = () => {
@@ -13,7 +14,7 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-gray-700 hover:text-yellow-500 transition-colors">Hjem</a>
+            <Link href="/" className="text-gray-700 hover:text-yellow-500 transition-colors">Hjem</Link>
             <a href="/kategorier" className="text-gray-700 hover:text-yellow-500 transition-colors">Kategorier</a>
             <a href="/brands" className="text-gray-700 hover:text-yellow-500 transition-colors">Mærker</a>
             <a href="/om-os" className="text-gray-700 hover:text-yellow-500 transition-colors">Om os</a>
@@ -46,7 +47,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-gray-800 mb-4">Hurtige links</h3>
             <ul className="space-y-2">
-              <li><a href="/" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Hjem</a></li>
+              <li><Link href="/" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Hjem</Link></li>
               <li><a href="/kategorier" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Kategorier</a></li>
               <li><a href="/brands" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Mærker</a></li>
               <li><a href="/om-os" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Om os</a></li>
@@ -128,7 +129,7 @@ export default function PrivatlivspolitikPage() {
               <div className="mb-12">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Introduktion</h2>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Denne privatlivspolitik beskriver, hvordan &Accessories ("vi", "os", "vores") indsamler, 
+                  Denne privatlivspolitik beskriver, hvordan &Accessories (&quot;vi&quot;, &quot;os&quot;, &quot;vores&quot;) indsamler, 
                   bruger og beskytter dine personoplysninger, når du besøger vores hjemmeside og 
                   bruger vores tjenester.
                 </p>

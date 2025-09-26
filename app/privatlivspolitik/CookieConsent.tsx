@@ -68,7 +68,7 @@ export default function CookieConsent() {
             
             <p className="text-gray-600 mb-6 leading-relaxed">
               Vi bruger cookies for at forbedre din oplevelse på vores hjemmeside, 
-              analysere trafik og tilpasse indhold. Ved at klikke "Accepter alle" 
+              analysere trafik og tilpasse indhold. Ved at klikke &quot;Accepter alle&quot; 
               giver du samtykke til alle cookies.
             </p>
 
@@ -80,7 +80,7 @@ export default function CookieConsent() {
                     <strong>Nødvendige cookies</strong> er altid aktiveret for grundlæggende funktionalitet.
                   </p>
                   <p className="text-sm text-gray-600">
-                    Du kan tilpasse dine præferencer ved at klikke på "Indstillinger".
+                    Du kan tilpasse dine præferencer ved at klikke på &quot;Indstillinger&quot;.
                   </p>
                 </div>
               </div>

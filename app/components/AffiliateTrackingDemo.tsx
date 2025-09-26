@@ -15,7 +15,7 @@ export default function AffiliateTrackingDemo() {
   useEffect(() => {
     setCookieValue(getCookie());
     setIsTrackingEnabled(isEnabled());
-  }, []);
+  }, [getCookie, isEnabled]);
 
   const handleSetCookie = () => {
     setCookie();
@@ -81,8 +81,8 @@ export default function AffiliateTrackingDemo() {
         <div className="text-sm text-gray-600">
           <p><strong>How it works:</strong></p>
           <ul className="list-disc pl-5 mt-2 space-y-1">
-            <li>Click "Set Cookie" to set the affiliate tracking cookie</li>
-            <li>Click "Test Click Tracking" to see how URLs are modified</li>
+            <li>Click &quot;Set Cookie&quot; to set the affiliate tracking cookie</li>
+            <li>Click &quot;Test Click Tracking&quot; to see how URLs are modified</li>
             <li>The cookie will persist for 30 days</li>
             <li>Only works if user has consented to marketing cookies</li>
           </ul>
