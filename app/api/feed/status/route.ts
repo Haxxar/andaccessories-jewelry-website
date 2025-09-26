@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { productFeedFetcher } from '@/lib/productFeedFetcher';
 import { cronJobManager } from '@/lib/cronJobs';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const productCount = productFeedFetcher.getProductCount();
     const recentLogs = productFeedFetcher.getRecentFeedLogs(5);

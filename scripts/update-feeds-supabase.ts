@@ -89,7 +89,7 @@ async function updateFeedsToSupabase() {
     console.log(`🎉 Successfully updated Supabase with ${insertedCount} products!`);
 
     // Verify the data
-    const { data: verifyData, error: verifyError } = await supabaseAdminClient
+    const { error: verifyError } = await supabaseAdminClient
       .from('products')
       .select('id')
       .limit(1);

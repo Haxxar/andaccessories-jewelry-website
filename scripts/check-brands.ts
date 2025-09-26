@@ -15,7 +15,7 @@ try {
   `).all();
 
   console.log('\n📊 Brands in database:');
-  brands.forEach((brand: any, index) => {
+  brands.forEach((brand: { brand: string; count: number }, index) => {
     console.log(`${index + 1}. ${brand.brand}: ${brand.count} products`);
   });
 
@@ -25,11 +25,11 @@ try {
     FROM products 
     WHERE brand LIKE '%Abelstedt%' OR shop LIKE '%Abelstedt%'
     LIMIT 5
-  `).all() as any[];
+  `).all() as { id: number; title: string; brand: string; shop: string }[];
 
   console.log('\n🔍 Abelstedt products:');
   if (abelstedtProducts.length > 0) {
-    abelstedtProducts.forEach((product: any) => {
+    abelstedtProducts.forEach((product: { id: number; title: string; brand: string; shop: string }) => {
       console.log(`- ID: ${product.id}, Title: ${product.title}, Brand: ${product.brand}, Shop: ${product.shop}`);
     });
   } else {

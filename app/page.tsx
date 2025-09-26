@@ -1,8 +1,9 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatPriceWithCurrency } from '../lib/priceFormatter';
 import { useAffiliateTracking } from '../lib/affiliateTracker';
 
@@ -152,10 +153,10 @@ export default function Home() {
         }
 
         if (categoriesData.success) {
-          const allCategories = ['alle', ...categoriesData.data.categories.map((c: any) => c.category)];
+          const allCategories = ['alle', ...categoriesData.data.categories.map((c: Category) => c.category)];
           const allBrands = ['alle', ...categoriesData.data.brands
-            .filter((b: any) => b.brand && b.brand !== 'andet' && b.brand !== 'Generisk Mærke')
-            .map((b: any) => b.brand)];
+            .filter((b: Brand) => b.brand && b.brand !== 'andet' && b.brand !== 'Generisk Mærke')
+            .map((b: Brand) => b.brand)];
           setCategories(allCategories);
           setBrands(allBrands);
         }
@@ -183,7 +184,7 @@ export default function Home() {
     if (!searchQuery.trim()) {
       fetchProducts();
     }
-  }, [selectedCategory, selectedBrand, sortBy]);
+  }, [selectedCategory, selectedBrand, sortBy, fetchProducts, searchQuery]);
 
   // Handle search when query changes
   useEffect(() => {
@@ -193,7 +194,7 @@ export default function Home() {
       }, 300);
       return () => clearTimeout(timeoutId);
     }
-  }, [searchQuery]);
+  }, [searchQuery, performSearch]);
 
   return (
     <div className="min-h-screen bg-pink-100">
@@ -202,9 +203,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
-              <img 
+              <Image 
                 src="/favicon-32x32.png" 
                 alt="&Accessories Logo" 
+                width={32}
+                height={32}
                 className="w-8 h-8"
               />
               <h1 className="font-['Pacifico'] text-2xl text-pink-600">
@@ -459,7 +462,7 @@ export default function Home() {
                 </p>
                 {searchQuery && (
                   <p className="text-sm text-pink-600">
-                    Søgeresultater for: <span className="font-medium">"{searchQuery}"</span>
+                    Søgeresultater for: <span className="font-medium">&ldquo;{searchQuery}&rdquo;</span>
                     <button 
                       onClick={clearSearch}
                       className="ml-2 text-gray-500 hover:text-gray-700 underline"

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface DatabaseData {
   summary: {
@@ -52,7 +52,7 @@ export default function DatabaseViewer() {
         } else {
           setError(result.error || 'Failed to fetch database data');
         }
-      } catch (err) {
+      } catch {
         setError('Error loading database data');
       } finally {
         setLoading(false);

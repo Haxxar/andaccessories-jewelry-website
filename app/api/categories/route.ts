@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { dbStatements } from '@/lib/database';
 import { supabaseAdmin } from '@/lib/supabase';
 import fs from 'fs';
@@ -29,15 +29,15 @@ const sampleMaterials = [
   { material: 'Perle', product_count: 45 }
 ];
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Check if database exists
     const dbPath = path.join(process.cwd(), 'data', 'products.db');
     const dbExists = fs.existsSync(dbPath);
     
-    let categories: any[] = [];
-    let brands: any[] = [];
-    let materials: any[] = [];
+    let categories: { category: string; product_count: number; min_price: number; max_price: number; avg_price: number }[] = [];
+    let brands: { brand: string; count: number }[] = [];
+    let materials: { material: string; count: number }[] = [];
 
     // Try Supabase first (for production)
     const supabaseAdminClient = supabaseAdmin();
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Process categories data
-        const categoryStats = categories?.reduce((acc: any, product: any) => {
+        const categoryStats = categories?.reduce((acc: Record<string, { category: string; product_count: number; prices: number[] }>, product: { category: string; price: number }) => {
           const cat = product.category;
           if (!acc[cat]) {
             acc[cat] = { category: cat, product_count: 0, prices: [] };
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
           return acc;
         }, {});
 
-        const processedCategories = Object.values(categoryStats || {}).map((cat: any) => ({
+        const processedCategories = Object.values(categoryStats || {}).map((cat: { category: string; product_count: number; prices: number[] }) => ({
           category: cat.category,
           product_count: cat.product_count,
           min_price: Math.min(...cat.prices),
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
           throw brandsError;
         }
 
-        const brandStats = brands?.reduce((acc: any, product: any) => {
+        const brandStats = brands?.reduce((acc: Record<string, number>, product: { brand: string }) => {
           const brand = product.brand;
           acc[brand] = (acc[brand] || 0) + 1;
           return acc;
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
           throw materialsError;
         }
 
-        const materialStats = materials?.reduce((acc: any, product: any) => {
+        const materialStats = materials?.reduce((acc: Record<string, number>, product: { material: string }) => {
           const material = product.material;
           acc[material] = (acc[material] || 0) + 1;
           return acc;

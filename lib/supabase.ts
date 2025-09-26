@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Lazy initialization of Supabase clients
-let _supabase: any = null;
-let _supabaseAdmin: any = null;
+let _supabase: ReturnType<typeof createClient> | null = null;
+let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
 
 function getSupabaseClient() {
   if (_supabase) return _supabase;

@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
     const dbPath = path.join(process.cwd(), 'data', 'products.db');
     const dbExists = fs.existsSync(dbPath);
     
-    let products: any[] = [];
+    let products: { id: number; title: string; price: number; old_price?: number; image_url: string; product_url: string; brand: string; category: string; material: string; shop: string; in_stock: boolean }[] = [];
     let totalCount = 0;
 
     // Try Supabase first (for production)
@@ -203,8 +203,8 @@ export async function GET(request: NextRequest) {
           totalCount = productFeedFetcher.getProductCount();
         } else {
           // Build custom query for multiple filters
-          let whereConditions: string[] = [];
-          let queryParams: any[] = [];
+          const whereConditions: string[] = [];
+          const queryParams: string[] = [];
 
           // Category filter
           if (category) {

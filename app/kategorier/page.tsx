@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
@@ -11,12 +12,22 @@ interface Category {
   avg_price: number;
 }
 
+interface Brand {
+  brand: string;
+  count: number;
+}
+
+interface Material {
+  material: string;
+  count: number;
+}
+
 interface ApiResponse {
   success: boolean;
   data: {
     categories: Category[];
-    brands: any[];
-    materials: any[];
+    brands: Brand[];
+    materials: Material[];
   };
 }
 

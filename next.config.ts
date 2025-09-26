@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   typescript: {
     // ignoreBuildErrors: true,
   },
+  // eslint: {
+  //   // Disable ESLint during builds to avoid version conflicts
+  //   ignoreDuringBuilds: true,
+  // },
   // Remove SQLite packages for Vercel deployment
   // serverExternalPackages: ['sqlite3', 'better-sqlite3'],
   experimental: {

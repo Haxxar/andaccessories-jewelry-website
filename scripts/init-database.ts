@@ -1,7 +1,6 @@
 #!/usr/bin/env tsx
 
 import { productFeedFetcher } from '../lib/productFeedFetcher';
-import { cronJobManager } from '../lib/cronJobs';
 
 async function initializeDatabase() {
   console.log('🚀 Initializing jewelry database...');

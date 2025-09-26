@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import path from 'path'
 import fs from 'fs'
+import { Database } from 'better-sqlite3'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://andaccessories.dk'
@@ -57,7 +58,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const dbPath = path.join(process.cwd(), 'data', 'products.db')
     if (fs.existsSync(dbPath)) {
-      const { Database } = require('better-sqlite3')
       const db = new Database(dbPath)
       
       const products = db.prepare(`
@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         LIMIT 1000
       `).all()
       
-      productPages = products.map((product: any) => ({
+      productPages = products.map((product: { id: number; updated_at: string }) => ({
         url: `${baseUrl}/produkt/${product.id}`,
         lastModified: new Date(product.updated_at),
         changeFrequency: 'weekly' as const,

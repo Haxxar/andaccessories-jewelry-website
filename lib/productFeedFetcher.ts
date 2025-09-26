@@ -369,28 +369,28 @@ export class ProductFeedFetcher {
   }
 
   // Method to get products by category (for API endpoints)
-  getProductsByCategory(category: string, limit: number = 50, offset: number = 0, sort: string = 'newest'): any[] {
+  getProductsByCategory(category: string, limit: number = 50, offset: number = 0, sort: string = 'newest'): Product[] {
     return this.getProductsWithSort(`AND category = ?`, limit, offset, sort, [category]);
   }
 
   // Method to get products by brand (for API endpoints)
-  getProductsByBrand(brand: string, limit: number = 50, offset: number = 0, sort: string = 'newest'): any[] {
+  getProductsByBrand(brand: string, limit: number = 50, offset: number = 0, sort: string = 'newest'): Product[] {
     return this.getProductsWithSort(`AND brand = ?`, limit, offset, sort, [brand]);
   }
 
   // Method to search products
-  searchProducts(query: string, limit: number = 50, offset: number = 0, sort: string = 'newest'): any[] {
+  searchProducts(query: string, limit: number = 50, offset: number = 0, sort: string = 'newest'): Product[] {
     const searchTerm = `%${query}%`;
     return this.getProductsWithSort(`AND (title LIKE ? OR description LIKE ? OR brand LIKE ?)`, limit, offset, sort, [searchTerm, searchTerm, searchTerm]);
   }
 
   // Method to get all products
-  getAllProducts(limit: number = 50, offset: number = 0, sort: string = 'newest'): any[] {
+  getAllProducts(limit: number = 50, offset: number = 0, sort: string = 'newest'): Product[] {
     return this.getProductsWithSort('', limit, offset, sort);
   }
 
   // Helper method to get products with custom sorting
-  private getProductsWithSort(whereClause: string, limit: number, offset: number, sort: string, params: any[] = []): any[] {
+  private getProductsWithSort(whereClause: string, limit: number, offset: number, sort: string, params: string[] = []): Product[] {
     let orderBy = '';
     
     switch (sort) {
@@ -426,7 +426,7 @@ export class ProductFeedFetcher {
   }
 
   // Method to get featured products (biggest discounts)
-  getFeaturedProducts(limit: number = 8): any[] {
+  getFeaturedProducts(limit: number = 8): Product[] {
     const query = `
       SELECT * FROM products 
       WHERE in_stock = 1 
@@ -440,12 +440,12 @@ export class ProductFeedFetcher {
   }
 
   // Method to get product by ID
-  getProductById(id: number): any {
+  getProductById(id: number): Product | undefined {
     return dbStatements.getProductById.get(id);
   }
 
   // Method to get product by external ID
-  getProductByExternalId(externalId: string): any {
+  getProductByExternalId(externalId: string): Product | undefined {
     return dbStatements.getProductByExternalId.get(externalId);
   }
 
@@ -461,7 +461,7 @@ export class ProductFeedFetcher {
   }
 
   // Method to get recent feed logs
-  getRecentFeedLogs(limit: number = 10): any[] {
+  getRecentFeedLogs(limit: number = 10): { id: number; feed_source: string; status: string; products_fetched: number; errors: string; created_at: string }[] {
     return dbStatements.getRecentFeedLogs.all(limit);
   }
 

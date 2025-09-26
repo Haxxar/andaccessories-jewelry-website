@@ -14,7 +14,7 @@ try {
   `).all();
 
   console.log('\n📊 All brands in database:');
-  brands.forEach((brand: any, index) => {
+  brands.forEach((brand: { brand: string; count: number }, index) => {
     console.log(`${index + 1}. "${brand.brand}" (${brand.count} products)`);
   });
 

@@ -29,7 +29,7 @@ export async function GET(
     if (supabaseAdminClient) {
       try {
         // Try to get product by ID first, then by external_id
-        let { data: supabaseProduct, error } = await supabaseAdminClient
+        const { data: supabaseProduct, error } = await supabaseAdminClient
           .from('products')
           .select('*')
           .eq('id', productId)
@@ -58,7 +58,7 @@ export async function GET(
         if (product && typeof product.keywords === 'string') {
           try {
             product.keywords = JSON.parse(product.keywords);
-          } catch (e) {
+          } catch {
             product.keywords = [];
           }
         }

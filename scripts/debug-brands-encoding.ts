@@ -14,7 +14,7 @@ try {
   `).all();
 
   console.log('\n📊 All brands in database:');
-  brands.forEach((brand: any, index) => {
+  brands.forEach((brand: { brand: string; count: number }, index) => {
     console.log(`${index + 1}. "${brand.brand}" (${brand.count} products)`);
     // Check for special characters
     if (brand.brand && /[øæåØÆÅ]/.test(brand.brand)) {
@@ -56,11 +56,11 @@ try {
        OR shop LIKE '%Abelstedt%'
        OR category LIKE '%Abelstedt%'
     LIMIT 5
-  `).all() as any[];
+  `).all() as { id: number; title: string; brand: string; shop: string; category: string }[];
 
   console.log('\n🔍 Products containing "Abelstedt" in any field:');
   if (abelstedtInAnyField.length > 0) {
-    abelstedtInAnyField.forEach((product: any) => {
+    abelstedtInAnyField.forEach((product: { id: number; title: string; brand: string; shop: string; category: string }) => {
       console.log(`- ID: ${product.id}`);
       console.log(`  Title: "${product.title}"`);
       console.log(`  Brand: "${product.brand}"`);
@@ -78,11 +78,11 @@ try {
     FROM products 
     WHERE feed_url LIKE '%bannerid=100221%'
     LIMIT 5
-  `).all() as any[];
+  `).all() as { id: number; title: string; brand: string; shop: string }[];
 
   console.log('\n🔍 Products from Abelstedt feed (bannerid=100221):');
   if (abelstedtFeedProducts.length > 0) {
-    abelstedtFeedProducts.forEach((product: any) => {
+    abelstedtFeedProducts.forEach((product: { id: number; title: string; brand: string; shop: string }) => {
       console.log(`- ID: ${product.id}`);
       console.log(`  Title: "${product.title}"`);
       console.log(`  Brand: "${product.brand}"`);
@@ -99,9 +99,9 @@ try {
     SELECT DISTINCT brand
     FROM products 
     WHERE brand IS NOT NULL
-  `).all() as any[];
+  `).all() as { brand: string }[];
 
-  allBrands.forEach((brand: any) => {
+  allBrands.forEach((brand: { brand: string }) => {
     if (brand.brand) {
       const hasSpecialChars = /[øæåØÆÅ]/.test(brand.brand);
       const hasQuestionMarks = brand.brand.includes('?');

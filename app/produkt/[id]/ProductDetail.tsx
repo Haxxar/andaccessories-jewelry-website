@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { formatPriceWithCurrency } from '../../../lib/priceFormatter';
 import { useAffiliateTracking } from '../../../lib/affiliateTracker';
@@ -35,7 +35,7 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ productId }: ProductDetailProps) {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  // const [selectedImageIndex] = useState(0); // Currently unused - for future image gallery
   const [activeTab, setActiveTab] = useState('produktdetaljer');
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);

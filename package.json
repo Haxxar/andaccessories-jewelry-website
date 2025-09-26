@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.36.0",
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.8",
     "@types/iconv-lite": "^0.0.1",
@@ -39,11 +40,14 @@
     "@types/xml2js": "^0.4.14",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.36.0",
     "eslint-config-next": "^15.5.3",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.4.0",
     "postcss": "^8.5.5",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.7.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.44.1"
   }
 }

@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     const dbPath = path.join(process.cwd(), 'data', 'products.db');
     const dbExists = fs.existsSync(dbPath);
     
-    let featuredProducts: any[] = [];
+    let featuredProducts: { id: number; title: string; price: number; old_price?: number; image_url: string; product_url: string; brand: string; category: string }[] = [];
 
     if (dbExists) {
       try {

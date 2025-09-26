@@ -58,7 +58,7 @@ export function getAffiliateCookie(cookieName: string = DEFAULT_CONFIG.cookieNam
   if (typeof window === 'undefined') return null;
   
   const cookies = document.cookie.split(';');
-  for (let cookie of cookies) {
+  for (const cookie of cookies) {
     const [name, value] = cookie.trim().split('=');
     if (name === cookieName) {
       return value;

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { productFeedFetcher } from '../../../lib/productFeedFetcher';
 import { dbStatements } from '../../../lib/database';
 
 export async function GET(request: NextRequest) {
@@ -20,8 +19,8 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit;
 
     // Build the search query
-    let whereConditions: string[] = [];
-    let queryParams: any[] = [];
+    const whereConditions: string[] = [];
+    const queryParams: string[] = [];
 
     // Base condition for in-stock products
     if (inStock) {
@@ -107,7 +106,7 @@ export async function GET(request: NextRequest) {
     const allParams = [...queryParams, limit, offset];
     const countParams = [...queryParams];
 
-    const products = dbStatements.db.prepare(productsQuery).all(...allParams) as any[];
+    const products = dbStatements.db.prepare(productsQuery).all(...allParams) as { id: number; title: string; price: number; old_price?: number; image_url: string; product_url: string; brand: string; category: string; material: string; shop: string; in_stock: boolean; keywords: string }[];
     const countResult = dbStatements.db.prepare(countQuery).get(...countParams) as { count: number };
     const totalCount = countResult.count;
 
@@ -131,16 +130,16 @@ export async function GET(request: NextRequest) {
       GROUP BY category, brand, material
     `;
 
-    const filterResults = dbStatements.db.prepare(filtersQuery).all(...queryParams) as any[];
+    const filterResults = dbStatements.db.prepare(filtersQuery).all(...queryParams) as { category: string; brand: string; material: string; min_price: number; max_price: number }[];
     
     // Process filter results
     const availableFilters = {
-      categories: [...new Set(filterResults.map((f: any) => f.category).filter(Boolean))],
-      brands: [...new Set(filterResults.map((f: any) => f.brand).filter(Boolean))],
-      materials: [...new Set(filterResults.map((f: any) => f.material).filter(Boolean))],
+      categories: [...new Set(filterResults.map((f: { category: string; brand: string; material: string; min_price: number; max_price: number }) => f.category).filter(Boolean))],
+      brands: [...new Set(filterResults.map((f: { category: string; brand: string; material: string; min_price: number; max_price: number }) => f.brand).filter(Boolean))],
+      materials: [...new Set(filterResults.map((f: { category: string; brand: string; material: string; min_price: number; max_price: number }) => f.material).filter(Boolean))],
       priceRange: {
-        min: Math.min(...filterResults.map((f: any) => f.min_price).filter(Boolean)),
-        max: Math.max(...filterResults.map((f: any) => f.max_price).filter(Boolean))
+        min: Math.min(...filterResults.map((f: { category: string; brand: string; material: string; min_price: number; max_price: number }) => f.min_price).filter(Boolean)),
+        max: Math.max(...filterResults.map((f: { category: string; brand: string; material: string; min_price: number; max_price: number }) => f.max_price).filter(Boolean))
       }
     };
 
