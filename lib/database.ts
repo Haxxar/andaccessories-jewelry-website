@@ -29,7 +29,7 @@ function columnExists(tableName: string, columnName: string): boolean {
   const result = db.prepare(`
     PRAGMA table_info(${tableName})
   `).all();
-  return result.some((col: { name: string }) => col.name === columnName);
+  return result.some((col: unknown) => (col as { name: string }).name === columnName);
 }
 
 // Create tables

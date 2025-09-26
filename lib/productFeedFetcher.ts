@@ -18,6 +18,30 @@ interface RawProduct {
   brand?: string[];
 }
 
+interface Product {
+  id: number;
+  external_id: string;
+  title: string;
+  description: string;
+  brand: string;
+  category: string;
+  material: string;
+  price: number;
+  old_price?: number;
+  discount?: number;
+  image_url: string;
+  product_url: string;
+  shop: string;
+  in_stock: boolean;
+  stock_count?: number;
+  sku?: string;
+  keywords: string;
+  path: string;
+  feed_source: string;
+  created_at: string;
+  updated_at: string;
+}
+
 interface NormalizedProduct {
   external_id: string;
   title: string;
@@ -462,7 +486,7 @@ export class ProductFeedFetcher {
 
   // Method to get recent feed logs
   getRecentFeedLogs(limit: number = 10): { id: number; feed_source: string; status: string; products_fetched: number; errors: string; created_at: string }[] {
-    return dbStatements.getRecentFeedLogs.all(limit);
+    return dbStatements.getRecentFeedLogs.all(limit) as { id: number; feed_source: string; status: string; products_fetched: number; errors: string; created_at: string }[];
   }
 
   // Cleanup method

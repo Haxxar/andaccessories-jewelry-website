@@ -55,11 +55,11 @@ export async function GET(request: NextRequest) {
     // Price range filters
     if (minPrice) {
       whereConditions.push('price >= ?');
-      queryParams.push(parseFloat(minPrice));
+      queryParams.push(minPrice);
     }
     if (maxPrice) {
       whereConditions.push('price <= ?');
-      queryParams.push(parseFloat(maxPrice));
+      queryParams.push(maxPrice);
     }
 
     // Build the complete query

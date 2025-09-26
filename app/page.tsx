@@ -31,6 +31,19 @@ interface Product {
   updated_at: string;
 }
 
+interface Category {
+  category: string;
+  product_count: number;
+  min_price: number;
+  max_price: number;
+  avg_price: number;
+}
+
+interface Brand {
+  brand: string;
+  count: number;
+}
+
 interface ApiResponse {
   success: boolean;
   data: {

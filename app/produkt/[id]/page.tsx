@@ -4,7 +4,7 @@ import ProductDetail from './ProductDetail';
 import { Metadata } from 'next';
 import path from 'path';
 import fs from 'fs';
-import { Database } from 'better-sqlite3';
+import Database from 'better-sqlite3';
 
 export async function generateStaticParams() {
   return [

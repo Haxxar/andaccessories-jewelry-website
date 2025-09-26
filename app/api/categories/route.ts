@@ -15,18 +15,18 @@ const sampleCategories = [
 ];
 
 const sampleBrands = [
-  { brand: 'Julie Sandlau', product_count: 89 },
-  { brand: 'Pandora', product_count: 67 },
-  { brand: 'Maria Black', product_count: 45 },
-  { brand: 'Dirks Jewellery', product_count: 34 },
-  { brand: 'Maanesten', product_count: 28 }
+  { brand: 'Julie Sandlau', count: 89 },
+  { brand: 'Pandora', count: 67 },
+  { brand: 'Maria Black', count: 45 },
+  { brand: 'Dirks Jewellery', count: 34 },
+  { brand: 'Maanesten', count: 28 }
 ];
 
 const sampleMaterials = [
-  { material: 'Guld', product_count: 234 },
-  { material: 'Sølv', product_count: 189 },
-  { material: 'Diamant', product_count: 67 },
-  { material: 'Perle', product_count: 45 }
+  { material: 'Guld', count: 234 },
+  { material: 'Sølv', count: 189 },
+  { material: 'Diamant', count: 67 },
+  { material: 'Perle', count: 45 }
 ];
 
 export async function GET() {
@@ -159,29 +159,29 @@ export async function GET() {
           WHERE in_stock = 1 
           GROUP BY category 
           ORDER BY product_count DESC
-        `).all();
+        `).all() as { category: string; product_count: number; min_price: number; max_price: number; avg_price: number }[];
 
         // Get all unique brands with product counts
         brands = dbStatements.db.prepare(`
           SELECT 
             brand,
-            COUNT(*) as product_count
+            COUNT(*) as count
           FROM products 
           WHERE in_stock = 1
           GROUP BY brand 
-          ORDER BY product_count DESC
-        `).all();
+          ORDER BY count DESC
+        `).all() as { brand: string; count: number }[];
 
         // Get all unique materials with product counts
         materials = dbStatements.db.prepare(`
           SELECT 
             material,
-            COUNT(*) as product_count
+            COUNT(*) as count
           FROM products 
           WHERE in_stock = 1
           GROUP BY material 
-          ORDER BY product_count DESC
-        `).all();
+          ORDER BY count DESC
+        `).all() as { material: string; count: number }[];
       } catch (dbError) {
         console.log('Database error, using sample data:', dbError);
         categories = sampleCategories;

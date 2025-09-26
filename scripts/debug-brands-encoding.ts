@@ -14,10 +14,11 @@ try {
   `).all();
 
   console.log('\n📊 All brands in database:');
-  brands.forEach((brand: { brand: string; count: number }, index) => {
-    console.log(`${index + 1}. "${brand.brand}" (${brand.count} products)`);
+  brands.forEach((brand: unknown, index) => {
+    const brandData = brand as { brand: string; count: number };
+    console.log(`${index + 1}. "${brandData.brand}" (${brandData.count} products)`);
     // Check for special characters
-    if (brand.brand && /[øæåØÆÅ]/.test(brand.brand)) {
+    if (brandData.brand && /[øæåØÆÅ]/.test(brandData.brand)) {
       console.log(`   ⚠️  Contains Danish special characters!`);
     }
   });

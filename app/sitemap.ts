@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import path from 'path'
 import fs from 'fs'
-import { Database } from 'better-sqlite3'
+import Database from 'better-sqlite3'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://andaccessories.dk'
