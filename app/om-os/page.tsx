@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
   const [scrollY, setScrollY] = useState(0);
-  const [isVisible, setIsVisible] = useState({});
+  const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
