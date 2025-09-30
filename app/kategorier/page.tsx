@@ -205,7 +205,7 @@ export default function CategoriesPage() {
                     alt={category.category}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
-                      e.currentTarget.src = '/placeholder-jewelry.jpg';
+                      e.currentTarget.src = '/placeholder-jewelry.svg';
                     }}
                   />
                 </div>
