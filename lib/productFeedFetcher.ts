@@ -489,6 +489,30 @@ export class ProductFeedFetcher {
     return dbStatements.getRecentFeedLogs.all(limit) as { id: number; feed_source: string; status: string; products_fetched: number; errors: string; created_at: string }[];
   }
 
+  // Method to fetch all feeds without storing (for direct processing)
+  async fetchAllFeeds(): Promise<RawProduct[][]> {
+    const feedUrls = [
+      'https://readdy.ai/api/feed/julie-sandlau',
+      'https://readdy.ai/api/feed/pandora',
+      'https://readdy.ai/api/feed/maria-black',
+      'https://readdy.ai/api/feed/by-biel'
+    ];
+
+    const allFeeds: RawProduct[][] = [];
+    
+    for (const feedUrl of feedUrls) {
+      try {
+        const products = await this.fetchSingleFeed(feedUrl);
+        allFeeds.push(products);
+      } catch (error) {
+        console.error(`❌ Error fetching feed ${feedUrl}:`, error);
+        allFeeds.push([]); // Add empty array for failed feeds
+      }
+    }
+
+    return allFeeds;
+  }
+
   // Cleanup method
   cleanupOldData(): void {
     const deletedProducts = dbStatements.deleteOldProducts.run().changes;
