@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { dbStatements } from '@/lib/database';
 import { supabaseAdmin } from '@/lib/supabase';
 import fs from 'fs';
 import path from 'path';
@@ -147,6 +146,7 @@ export async function GET() {
 
     if (dbExists) {
       try {
+        const { dbStatements } = await import('@/lib/database');
         // Get all unique categories with product counts
         categories = dbStatements.db.prepare(`
           SELECT 

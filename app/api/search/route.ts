@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { dbStatements } from '../../../lib/database';
+// Avoid static import of SQLite on serverless
 import { supabaseAdmin } from '@/lib/supabase';
 
 export async function GET(request: NextRequest) {
@@ -122,6 +122,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Build the search query for local SQLite
+    const { dbStatements } = await import('../../../lib/database');
     const whereConditions: string[] = [];
     const queryParams: string[] = [];
 

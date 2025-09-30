@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { productFeedFetcher } from '@/lib/productFeedFetcher';
 import { supabaseAdmin } from '@/lib/supabase';
 import path from 'path';
 import fs from 'fs';
@@ -76,6 +75,7 @@ export async function GET(
 
     if (dbExists) {
       // Try to get product by internal ID first, then by external ID
+      const { productFeedFetcher } = await import('@/lib/productFeedFetcher');
       product = productFeedFetcher.getProductById(parseInt(productId));
       
       if (!product) {
