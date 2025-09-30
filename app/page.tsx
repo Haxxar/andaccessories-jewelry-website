@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatPriceWithCurrency } from '../lib/priceFormatter';
@@ -101,7 +101,7 @@ export default function Home() {
   const { trackClick } = useAffiliateTracking();
 
   // Search function
-  const performSearch = async (query: string) => {
+  const performSearch = useCallback(async (query: string) => {
     if (!query.trim()) {
       // If search is empty, fetch normal products
       fetchProducts();
@@ -136,10 +136,10 @@ export default function Home() {
     } finally {
       setIsSearching(false);
     }
-  };
+  }, [selectedCategory, selectedBrand, sortBy]);
 
   // Fetch products function
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -182,7 +182,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCategory, selectedBrand, sortBy]);
 
   // Clear search
   const clearSearch = () => {
