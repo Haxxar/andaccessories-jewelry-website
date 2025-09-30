@@ -9,8 +9,10 @@ export async function GET(request: NextRequest) {
       hasClient: !!supabaseAdminClient,
       hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
       hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'present' : 'missing',
-      serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'present' : 'missing'
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL || 'missing',
+      serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'present' : 'missing',
+      urlLength: process.env.NEXT_PUBLIC_SUPABASE_URL?.length || 0,
+      urlStartsWith: process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(0, 10) || 'none'
     };
 
     if (!supabaseAdminClient) {
