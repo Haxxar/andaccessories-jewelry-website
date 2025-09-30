@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
       try {
         let query = supabaseAdminClient
           .from('products')
-          .select('*')
+          .select('*', { count: 'exact' })
           .eq('in_stock', true);
 
         // Apply filters
@@ -143,8 +143,8 @@ export async function GET(request: NextRequest) {
 
         // Apply pagination
         const { data: supabaseProducts, error, count } = await query
-          .range(offset, offset + limit - 1)
-          .limit(limit);
+          .order('id', { ascending: true })
+          .range(offset, offset + limit - 1);
 
         if (error) {
           console.error('Supabase error:', error);

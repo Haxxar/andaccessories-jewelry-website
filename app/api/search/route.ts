@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbStatements } from '../../../lib/database';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,7 +19,109 @@ export async function GET(request: NextRequest) {
     
     const offset = (page - 1) * limit;
 
-    // Build the search query
+    // Try Supabase first (works on Vercel)
+    const supabaseAdminClient = supabaseAdmin();
+    if (supabaseAdminClient) {
+      try {
+        let queryBuilder = supabaseAdminClient
+          .from('products')
+          .select('*', { count: 'exact' });
+
+        // Base condition for in-stock products
+        if (inStock) {
+          queryBuilder = queryBuilder.eq('in_stock', true);
+        }
+
+        // Text search across fields
+        if (query.trim()) {
+          const term = query.trim();
+          queryBuilder = queryBuilder.or(`title.ilike.%${term}%,description.ilike.%${term}%,brand.ilike.%${term}%`);
+        }
+
+        if (category && category !== 'alle') {
+          queryBuilder = queryBuilder.eq('category', category);
+        }
+        if (brand && brand !== 'alle') {
+          queryBuilder = queryBuilder.eq('brand', brand);
+        }
+        if (material && material !== 'alle') {
+          queryBuilder = queryBuilder.eq('material', material);
+        }
+        if (minPrice) {
+          queryBuilder = queryBuilder.gte('price', Number(minPrice));
+        }
+        if (maxPrice) {
+          queryBuilder = queryBuilder.lte('price', Number(maxPrice));
+        }
+
+        // Sorting
+        switch (sort) {
+          case 'oldest':
+            queryBuilder = queryBuilder.order('updated_at', { ascending: true });
+            break;
+          case 'price-low':
+            queryBuilder = queryBuilder.order('price', { ascending: true });
+            break;
+          case 'price-high':
+            queryBuilder = queryBuilder.order('price', { ascending: false });
+            break;
+          case 'brand':
+            queryBuilder = queryBuilder.order('brand', { ascending: true });
+            break;
+          case 'discount':
+            queryBuilder = queryBuilder.order('discount', { ascending: false, nullsFirst: false });
+            break;
+          default:
+            queryBuilder = queryBuilder.order('updated_at', { ascending: false });
+        }
+
+        // Pagination
+        const { data: supabaseProducts, count, error } = await queryBuilder
+          .range(offset, offset + limit - 1);
+
+        if (error) {
+          throw error;
+        }
+
+        const totalCount = count || 0;
+        const totalPages = Math.ceil(totalCount / limit);
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            products: supabaseProducts || [],
+            pagination: {
+              page,
+              limit,
+              totalCount,
+              totalPages,
+              hasNext: page < totalPages,
+              hasPrev: page > 1
+            },
+            filters: {
+              query,
+              category,
+              brand,
+              material,
+              minPrice,
+              maxPrice,
+              sort,
+              inStock
+            },
+            availableFilters: {
+              categories: [],
+              brands: [],
+              materials: [],
+              priceRange: { min: 0, max: 0 }
+            }
+          }
+        });
+      } catch (e) {
+        // fallthrough to SQLite
+      }
+    }
+
+    // Build the search query for local SQLite
     const whereConditions: string[] = [];
     const queryParams: string[] = [];
 

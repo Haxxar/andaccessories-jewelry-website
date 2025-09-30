@@ -21,8 +21,17 @@ async function updateFeedsToSupabase() {
       return;
     }
 
-    // Get all products from local database
-    const localProducts = productFeedFetcher.getAllProducts();
+    // Get all products from local database (page through entire SQLite store)
+    const localProducts: any[] = [];
+    const pageSize = 1000;
+    let offset = 0;
+    for (;;) {
+      const page = productFeedFetcher.getAllProducts(pageSize, offset, 'newest');
+      if (!page || page.length === 0) break;
+      localProducts.push(...page);
+      offset += page.length;
+      if (page.length < pageSize) break;
+    }
     console.log(`📦 Found ${localProducts.length} products in local database`);
 
     if (localProducts.length === 0) {
@@ -49,7 +58,7 @@ async function updateFeedsToSupabase() {
     for (let i = 0; i < localProducts.length; i += batchSize) {
       const batch = localProducts.slice(i, i + batchSize);
       
-      // Transform products for Supabase
+      // Transform products for Supabase (coerce types to match Supabase schema)
       const supabaseProducts = batch.map(product => ({
         external_id: product.external_id,
         title: product.title,
@@ -59,12 +68,12 @@ async function updateFeedsToSupabase() {
         material: product.material,
         price: product.price,
         old_price: product.old_price,
-        discount: product.discount,
+        discount: product.discount != null ? Math.round(Number(product.discount)) : null,
         image_url: product.image_url,
         product_url: product.product_url,
         shop: product.shop,
         in_stock: product.in_stock,
-        stock_count: product.stock_count,
+        stock_count: product.stock_count != null ? Math.trunc(Number(product.stock_count)) : null,
         sku: product.sku,
         keywords: Array.isArray(product.keywords) ? product.keywords : JSON.parse(product.keywords || '[]'),
         path: product.path,
