@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { productFeedFetcher } from '@/lib/productFeedFetcher';
-import { dbStatements } from '@/lib/database';
 import { supabaseAdmin } from '@/lib/supabase';
 import fs from 'fs';
 import path from 'path';
@@ -197,6 +195,8 @@ export async function GET(request: NextRequest) {
 
     if (dbExists) {
       try {
+        const { productFeedFetcher } = await import('@/lib/productFeedFetcher');
+        const { dbStatements } = await import('@/lib/database');
         // Try to get real data from database
         if (search) {
           products = productFeedFetcher.searchProducts(search, limit, offset, sort);
