@@ -98,6 +98,12 @@ export async function GET(request: NextRequest) {
 
     // Try Supabase first (for production)
     const supabaseAdminClient = supabaseAdmin();
+    console.log('Supabase admin client:', supabaseAdminClient ? 'initialized' : 'null');
+    console.log('Environment check:', {
+      hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+      hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+    });
+    
     if (supabaseAdminClient) {
       try {
         let query = supabaseAdminClient
@@ -141,7 +147,6 @@ export async function GET(request: NextRequest) {
 
         // Apply pagination
         const { data: supabaseProducts, error, count } = await query
-          .order('id', { ascending: true })
           .range(offset, offset + limit - 1);
 
         if (error) {
@@ -180,6 +185,7 @@ export async function GET(request: NextRequest) {
 
       } catch (error) {
         console.error('Supabase query error:', error);
+        console.error('Supabase error details:', JSON.stringify(error, null, 2));
         // Fall back to local database or mock data
       }
     }
