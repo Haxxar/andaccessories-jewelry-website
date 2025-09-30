@@ -234,20 +234,6 @@ export default function PrivatlivspolitikPage() {
                 </ul>
               </div>
 
-              {/* Contact */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Kontakt os</h2>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Hvis du har spørgsmål om denne privatlivspolitik eller ønsker at udøve 
-                  dine rettigheder, kan du kontakte os:
-                </p>
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <p className="text-gray-700 mb-2"><strong>E-mail:</strong> privatliv@&Accessories.dk</p>
-                  <p className="text-gray-700 mb-2"><strong>Telefon:</strong> +45 12 34 56 78</p>
-                  <p className="text-gray-700 mb-2"><strong>Adresse:</strong> Smykkevej 123, 2100 København Ø</p>
-                </div>
-              </div>
-
               {/* Changes */}
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Ændringer til privatlivspolitikken</h2>
