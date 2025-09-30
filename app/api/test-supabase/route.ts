@@ -27,11 +27,21 @@ export async function GET(request: NextRequest) {
       .select('*', { count: 'exact' })
       .limit(5);
 
+    // Also test if the table exists by trying to get table info
+    const { data: tableInfo, error: tableError } = await supabaseAdminClient
+      .from('products')
+      .select('id')
+      .limit(1);
+
     if (error) {
       return NextResponse.json({
         success: false,
         error: 'Supabase query failed',
         errorDetails: error,
+        tableTest: {
+          tableInfo,
+          tableError
+        },
         debug: debugInfo
       });
     }
@@ -42,6 +52,10 @@ export async function GET(request: NextRequest) {
         productCount: count,
         sampleProducts: data?.length || 0,
         firstProduct: data?.[0] || null
+      },
+      tableTest: {
+        tableInfo,
+        tableError
       },
       debug: debugInfo
     });
