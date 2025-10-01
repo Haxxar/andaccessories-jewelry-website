@@ -161,7 +161,7 @@ export default function OrestikkerPage() {
   };
 
   const handleProductClick = (product: Product) => {
-    trackClick(product.product_url, product.title, product.price);
+    trackClick(product.product_url);
   };
 
   if (loading) {
