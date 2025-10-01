@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { productFeedFetcher } from '@/lib/productFeedFetcher';
-import { getSupabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { dbStatements } from '@/lib/database';
 import path from 'path';
 import fs from 'fs';
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     // Step 2: Update Supabase database directly
     console.log('☁️ Updating Supabase database...');
-    const supabase = getSupabaseAdmin();
+    const supabase = supabaseAdmin();
     
     if (!supabase) {
       throw new Error('Supabase client not available');
