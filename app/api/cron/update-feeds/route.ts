@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
       const batch = products.slice(i, i + batchSize);
       
       // Transform products for Supabase
-      const supabaseProducts = batch.map(product => ({
+      const supabaseProducts = batch.map((product: any) => ({
         external_id: product.external_id,
         title: product.title,
         description: product.description,
