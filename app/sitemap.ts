@@ -27,6 +27,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/om-os`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
@@ -39,6 +45,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
   ]
+
+  // Blog posts
+  const blogPosts = [
+    'smykkepleje-guide',
+    'vaelg-forlovelsesring',
+    'smykke-trends-2024',
+    'gaver-til-hende-smykker',
+    'forskel-guld-typer',
+    'kombiner-smykker-stil'
+  ]
+  
+  const blogPages = blogPosts.map(slug => ({
+    url: `${baseUrl}/blog/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
 
   // Category pages
   const categories = [
@@ -81,5 +104,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating product sitemap:', error)
   }
 
-  return [...staticPages, ...categoryPages, ...productPages]
+  return [...staticPages, ...blogPages, ...categoryPages, ...productPages]
 }

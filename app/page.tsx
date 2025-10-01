@@ -209,8 +209,126 @@ export default function Home() {
     }
   }, [searchQuery, performSearch]);
 
+  // Structured data for SEO
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "&Accessories",
+    "alternateName": "And Accessories",
+    "url": "https://andaccessories.dk",
+    "logo": "https://andaccessories.dk/android-chrome-512x512.png",
+    "description": "Danmarks destination for smukke smykker fra de bedste mærker. Sammenlign priser og find de bedste tilbud på ringe, halskæder, øreringe og meget mere.",
+    "sameAs": [],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "availableLanguage": "Danish"
+    }
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "&Accessories",
+    "url": "https://andaccessories.dk",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://andaccessories.dk/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Hjem",
+        "item": "https://andaccessories.dk"
+      }
+    ]
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hvad er &Accessories?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "&Accessories er Danmarks smykke-sammenligningsplatform, hvor du kan opdage og sammenligne smykker fra flere af landets førende mærker og leverandører - alt samlet ét sted. Vi gør det nemt at finde de bedste tilbud og nyeste kollektioner."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan jeg købe smykker direkte hos jer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vi er en sammenligningsplatform, så når du finder det perfekte smykke, sendes du videre til den officielle butik hvor du kan gennemføre dit køb sikkert og direkte hos den autoriserede forhandler."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hvor ofte opdateres produkterne?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vores produktdatabase opdateres automatisk dagligt for at sikre, at du altid ser de nyeste kollektioner, aktuelle priser og tilgængelighed. Vi samarbejder direkte med leverandørerne for at give dig den mest opdaterede information."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Er der leveringsomkostninger?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Leveringsbetingelser og omkostninger bestemmes af den enkelte butik, du køber fra. Mange af vores partnere tilbyder gratis levering ved køb over et vist beløb. Se detaljer på den enkelte produktside."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hvad hvis jeg vil returnere et smykke?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Returpolitikken følger den enkelte butiks regler. De fleste af vores partnere tilbyder 14-30 dages fuld returret. Kontakt butikken direkte for deres specifikke returvilkår."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hvordan finder jeg den rigtige størrelse?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tjek vores købsguide for tips til at måle ringstørrelse. De fleste butikker tilbyder også gratis størrelsesændring eller et størrelsesmålingskit."
+        }
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-pink-100">
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-pink-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -237,6 +355,9 @@ export default function Home() {
               </Link>
               <Link href="/brands" className="text-gray-700 hover:text-pink-600 transition-colors">
                 Mærker
+              </Link>
+              <Link href="/blog" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Blog
               </Link>
               <Link href="/om-os" className="text-gray-700 hover:text-pink-600 transition-colors">
                 Om Os
@@ -300,6 +421,45 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Trust Badges Section */}
+      <section className="bg-gradient-to-r from-pink-50 to-yellow-50 border-b border-pink-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center mb-3">
+                <i className="ri-shield-check-line text-2xl text-pink-600"></i>
+              </div>
+              <h3 className="font-semibold text-gray-800 text-sm md:text-base">Sikker Shopping</h3>
+              <p className="text-xs text-gray-600 mt-1">Autoriserede forhandlere</p>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center mb-3">
+                <i className="ri-price-tag-3-line text-2xl text-yellow-600"></i>
+              </div>
+              <h3 className="font-semibold text-gray-800 text-sm md:text-base">Bedste Priser</h3>
+              <p className="text-xs text-gray-600 mt-1">Sammenlign let og spar</p>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center mb-3">
+                <i className="ri-refresh-line text-2xl text-pink-600"></i>
+              </div>
+              <h3 className="font-semibold text-gray-800 text-sm md:text-base">Opdateres Dagligt</h3>
+              <p className="text-xs text-gray-600 mt-1">Altid friske tilbud</p>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center mb-3">
+                <i className="ri-star-line text-2xl text-yellow-600"></i>
+              </div>
+              <h3 className="font-semibold text-gray-800 text-sm md:text-base">Premium Mærker</h3>
+              <p className="text-xs text-gray-600 mt-1">Højeste kvalitet</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Hero Section with Animated Jewelry Background - Hidden when searching */}
       {!searchQuery && (
@@ -530,11 +690,14 @@ export default function Home() {
                 {products.map(product => (
                   <div key={product.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-pink-100">
                     <Link href={`/produkt/${product.id}`}>
-                      <div className="relative aspect-square">
-                        <img
+                      <div className="relative aspect-square overflow-hidden">
+                        <Image
                           src={product.image_url || '/placeholder-jewelry.svg'}
-                          alt={product.title}
-                          className="w-full h-full object-cover object-top"
+                          alt={`${product.title} - ${product.brand} smykke`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                          className="object-cover object-top"
+                          loading="lazy"
                           onError={(e) => {
                             e.currentTarget.src = '/placeholder-jewelry.svg';
                           }}
@@ -607,15 +770,223 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
+      <section className="bg-gradient-to-br from-yellow-50 via-pink-50 to-yellow-50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Hvorfor Vælge &Accessories?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Vi samler de bedste smykker fra Danmarks førende leverandører på én platform, så du nemt kan finde det perfekte smykke til enhver lejlighed.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6">
+                <i className="ri-search-line text-3xl text-pink-600"></i>
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
+                Sammenlign Priser Nemt
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Se priser fra flere autoriserede forhandlere side om side. Find de bedste tilbud på ringe, halskæder, øreringe, armbånd og meget mere - alt samlet ét sted.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
+                <i className="ri-time-line text-3xl text-yellow-600"></i>
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
+                Spar Tid og Penge
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Undgå at besøge flere webshops. Vi opdaterer vores produktkatalog dagligt med de nyeste kollektioner og rabatter, så du altid får de bedste priser og aktuelle tilbud.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6">
+                <i className="ri-award-line text-3xl text-pink-600"></i>
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
+                Kvalitet og Ægthed
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Alle smykker kommer fra verificerede og autoriserede forhandlere i Danmark. Vi samarbejder kun med pålidelige leverandører af ægte guld, sølv og ædelstene.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 bg-white rounded-2xl p-8 shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              Populære Smykkekategorier
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <Link 
+                href="/kategori/ringe" 
+                className="flex flex-col items-center p-4 rounded-xl hover:bg-pink-50 transition-colors group"
+              >
+                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-pink-200 transition-colors">
+                  <i className="ri-gift-line text-2xl text-pink-600"></i>
+                </div>
+                <span className="font-medium text-gray-800 text-center">Ringe</span>
+                <span className="text-xs text-gray-500 mt-1">Forlovelses- & vielsesringe</span>
+              </Link>
+
+              <Link 
+                href="/kategori/halskader" 
+                className="flex flex-col items-center p-4 rounded-xl hover:bg-yellow-50 transition-colors group"
+              >
+                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">
+                  <i className="ri-link text-2xl text-yellow-600"></i>
+                </div>
+                <span className="font-medium text-gray-800 text-center">Halskæder</span>
+                <span className="text-xs text-gray-500 mt-1">Guld & sølv kæder</span>
+              </Link>
+
+              <Link 
+                href="/kategori/oreringe" 
+                className="flex flex-col items-center p-4 rounded-xl hover:bg-pink-50 transition-colors group"
+              >
+                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-pink-200 transition-colors">
+                  <i className="ri-vip-diamond-line text-2xl text-pink-600"></i>
+                </div>
+                <span className="font-medium text-gray-800 text-center">Øreringe</span>
+                <span className="text-xs text-gray-500 mt-1">Creoler & studs</span>
+              </Link>
+
+              <Link 
+                href="/kategori/armband" 
+                className="flex flex-col items-center p-4 rounded-xl hover:bg-yellow-50 transition-colors group"
+              >
+                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">
+                  <i className="ri-heart-line text-2xl text-yellow-600"></i>
+                </div>
+                <span className="font-medium text-gray-800 text-center">Armbånd</span>
+                <span className="text-xs text-gray-500 mt-1">Lænke- & charmarmbånd</span>
+              </Link>
+
+              <Link 
+                href="/kategori/vedhang" 
+                className="flex flex-col items-center p-4 rounded-xl hover:bg-pink-50 transition-colors group"
+              >
+                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-pink-200 transition-colors">
+                  <i className="ri-sparkling-line text-2xl text-pink-600"></i>
+                </div>
+                <span className="font-medium text-gray-800 text-center">Vedhæng</span>
+                <span className="text-xs text-gray-500 mt-1">Charms & pendants</span>
+              </Link>
+
+              <Link 
+                href="/kategori/orestikker" 
+                className="flex flex-col items-center p-4 rounded-xl hover:bg-yellow-50 transition-colors group"
+              >
+                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">
+                  <i className="ri-star-line text-2xl text-yellow-600"></i>
+                </div>
+                <span className="font-medium text-gray-800 text-center">Ørestikker</span>
+                <span className="text-xs text-gray-500 mt-1">Elegant & diskret</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">
+            Ofte Stillede Spørgsmål
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start">
+                <i className="ri-question-line text-pink-600 mr-2 mt-1"></i>
+                Hvad er &Accessories?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                &Accessories er Danmarks smykke-sammenligningsplatform, hvor du kan opdage og sammenligne smykker fra flere af landets førende mærker og leverandører - alt samlet ét sted. Vi gør det nemt at finde de bedste tilbud og nyeste kollektioner.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start">
+                <i className="ri-question-line text-pink-600 mr-2 mt-1"></i>
+                Kan jeg købe smykker direkte hos jer?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Vi er en sammenligningsplatform, så når du finder det perfekte smykke, sendes du videre til den officielle butik hvor du kan gennemføre dit køb sikkert og direkte hos den autoriserede forhandler.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start">
+                <i className="ri-question-line text-pink-600 mr-2 mt-1"></i>
+                Hvor ofte opdateres produkterne?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Vores produktdatabase opdateres automatisk dagligt for at sikre, at du altid ser de nyeste kollektioner, aktuelle priser og tilgængelighed. Vi samarbejder direkte med leverandørerne for at give dig den mest opdaterede information.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start">
+                <i className="ri-question-line text-pink-600 mr-2 mt-1"></i>
+                Er der leveringsomkostninger?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Leveringsbetingelser og omkostninger bestemmes af den enkelte butik, du køber fra. Mange af vores partnere tilbyder gratis levering ved køb over et vist beløb. Se detaljer på den enkelte produktside.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start">
+                <i className="ri-question-line text-pink-600 mr-2 mt-1"></i>
+                Hvad hvis jeg vil returnere et smykke?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Returpolitikken følger den enkelte butiks regler. De fleste af vores partnere tilbyder 14-30 dages fuld returret. Kontakt butikken direkte for deres specifikke returvilkår.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start">
+                <i className="ri-question-line text-pink-600 mr-2 mt-1"></i>
+                Hvordan finder jeg den rigtige størrelse?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Tjek vores <Link href="/blog/vaelg-forlovelsesring" className="text-pink-600 hover:underline">købsguide</Link> for tips til at måle ringstørrelse. De fleste butikker tilbyder også gratis størrelsesændring eller et størrelsesmålingskit.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-gray-600 mb-4">Har du flere spørgsmål?</p>
+            <Link 
+              href="/om-os" 
+              className="inline-block bg-pink-400 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-500 transition-all transform hover:scale-105"
+            >
+              Kontakt Os
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-white border-t border-pink-200 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <img 
+                <Image 
                   src="/favicon-32x32.png" 
                   alt="&Accessories Logo" 
+                  width={32}
+                  height={32}
                   className="w-8 h-8"
                 />
                 <h3 className="font-['Pacifico'] text-xl text-pink-600">
@@ -631,6 +1002,7 @@ export default function Home() {
               <h4 className="font-semibold text-gray-800 mb-4">Information</h4>
               <ul className="space-y-2">
                 <li><Link href="/om-os" className="text-gray-600 hover:text-pink-600 transition-colors">Om Os</Link></li>
+                <li><Link href="/blog" className="text-gray-600 hover:text-pink-600 transition-colors">Blog</Link></li>
                 <li><Link href="/privatlivspolitik" className="text-gray-600 hover:text-pink-600 transition-colors">Privatlivspolitik</Link></li>
               </ul>
             </div>
