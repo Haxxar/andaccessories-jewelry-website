@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get all products from local database or fetch fresh
-    let products;
+    let products: any[];
     if (fs.existsSync(dbPath)) {
       // Get from local database
       products = dbStatements.getAllProducts.all();
@@ -103,14 +103,12 @@ export async function GET(request: NextRequest) {
         sku: product.sku,
         keywords: Array.isArray(product.keywords) ? product.keywords : JSON.parse(product.keywords || '[]'),
         path: product.path,
-        feed_source: product.feed_source,
-        created_at: product.created_at,
-        updated_at: product.updated_at
+        feed_source: product.feed_source
       }));
 
       const { error: insertError } = await supabase
         .from('products')
-        .insert(supabaseProducts);
+        .insert(supabaseProducts as any);
 
       if (insertError) {
         console.error(`❌ Error inserting batch ${Math.floor(i/batchSize) + 1}:`, insertError);
