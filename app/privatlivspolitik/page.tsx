@@ -1,7 +1,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import CookieConsent from './CookieConsent';
 
 const Header = () => {
   return (
@@ -99,7 +98,6 @@ export default function PrivatlivspolitikPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-yellow-50">
       <Header />
-      <CookieConsent />
       
       <main className="pt-20">
         {/* Hero Section */}

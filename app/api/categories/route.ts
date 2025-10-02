@@ -91,7 +91,7 @@ export async function GET() {
 
         const processedBrands = Object.entries(brandStats || {}).map(([brand, count]) => ({
           brand,
-          product_count: count
+          count: count
         }));
 
         // Get materials with product counts
@@ -114,7 +114,7 @@ export async function GET() {
 
         const processedMaterials = Object.entries(materialStats || {}).map(([material, count]) => ({
           material,
-          product_count: count
+          count: count
         }));
 
         return NextResponse.json({

@@ -3,6 +3,7 @@ import React from 'react';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Pacifico } from "next/font/google";
 import "./globals.css";
+import CookieConsent from './components/CookieConsent';
 
 const pacifico = Pacifico({
   weight: '400',
@@ -95,11 +96,57 @@ export default function RootLayout({
     <html lang="da" suppressHydrationWarning={true}>
       <head>
         <link rel="manifest" href="/site.webmanifest" />
+        {/* Google Analytics - Will be loaded conditionally based on consent */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Google Analytics will be loaded conditionally
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              
+              // Load GA4 only if user has consented to statistics cookies
+              function loadGoogleAnalytics() {
+                if (typeof window !== 'undefined') {
+                  const consent = localStorage.getItem('cookie-consent');
+                  if (consent) {
+                    try {
+                      const consentData = JSON.parse(consent);
+                      if (consentData.statistics) {
+                        // Load GA4 script
+                        const script = document.createElement('script');
+                        script.async = true;
+                        script.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID';
+                        document.head.appendChild(script);
+                        
+                        // Configure GA4
+                        gtag('config', 'GA_MEASUREMENT_ID', {
+                          anonymize_ip: true,
+                          cookie_flags: 'SameSite=Lax;Secure'
+                        });
+                      }
+                    } catch (error) {
+                      console.error('Error loading Google Analytics:', error);
+                    }
+                  }
+                }
+              }
+              
+              // Load GA4 on page load if consent exists
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadGoogleAnalytics);
+              } else {
+                loadGoogleAnalytics();
+              }
+            `
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${pacifico.variable} antialiased`}
       >
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

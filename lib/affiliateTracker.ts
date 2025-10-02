@@ -29,11 +29,19 @@ export function setAffiliateCookie(config: Partial<AffiliateConfig> = {}): void 
   // Check if user has consented to marketing cookies
   const consent = localStorage.getItem('cookie-consent');
   if (consent) {
-    const consentData = JSON.parse(consent);
-    if (!consentData.marketing) {
-      console.log('User has not consented to marketing cookies, skipping affiliate tracking');
+    try {
+      const consentData = JSON.parse(consent);
+      if (!consentData.marketing) {
+        console.log('User has not consented to marketing cookies, skipping affiliate tracking');
+        return;
+      }
+    } catch (error) {
+      console.log('Error parsing consent data, skipping affiliate tracking');
       return;
     }
+  } else {
+    console.log('No consent data found, skipping affiliate tracking');
+    return;
   }
   
   // Calculate expiry date

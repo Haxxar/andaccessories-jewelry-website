@@ -1,21 +1,36 @@
+# Robots.txt for &Accessories - Smykker og Accessories
+# https://andaccessories.dk
+
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemap location
 Sitemap: https://andaccessories.dk/sitemap.xml
 
 # Disallow admin and API routes
 Disallow: /api/
 Disallow: /db-viewer/
 Disallow: /debug-*
+Disallow: /_next/
+Disallow: /admin/
 
-# Allow all product and category pages
+# Allow all public pages
 Allow: /produkt/
 Allow: /kategori/
 Allow: /kategorier/
 Allow: /brands/
 Allow: /om-os/
 Allow: /privatlivspolitik/
+Allow: /blog/
 
-# Crawl delay (optional)
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
 Crawl-delay: 1

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatPriceWithCurrency } from '../../../lib/priceFormatter';
 import { useAffiliateTracking } from '../../../lib/affiliateTracker';
 import Head from 'next/head';
@@ -129,7 +130,12 @@ export default function OrestikkerPage() {
           const allBrands = ['alle', ...data.data.brands
             .filter(b => b.brand && b.brand !== 'andet' && b.brand !== 'Generisk Mærke')
             .map(b => b.brand)];
-          const allMaterials = ['alle', ...data.data.materials];
+          // Extract material names from objects and remove duplicates
+          const materialNames = data.data.materials
+            .map((m: any) => typeof m === 'object' && m !== null ? m.material : String(m))
+            .filter((m: any) => m && m !== 'andet');
+          const uniqueMaterials = Array.from(new Set(materialNames));
+          const allMaterials = ['alle', ...uniqueMaterials];
           setBrands(allBrands);
           setMaterials(allMaterials);
         }
@@ -205,28 +211,72 @@ export default function OrestikkerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-pink-100">
       <Head>
         <title>Ørestikker | &Accessories - Smukke Smykker Online</title>
         <meta name="description" content="Udforsk vores omfattende kollektion af ørestikker. Find elegante ørestikker og meget mere til de bedste priser." />
         <meta name="keywords" content="ørestikker, guld ørestikker, sølv ørestikker, smykker" />
       </Head>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Ørestikker</h1>
-          <p className="text-gray-600 text-lg">
-            Udforsk vores omfattende kollektion af ørestikker. Find elegante ørestikker og meget mere.
-          </p>
-          <div className="mt-4 text-sm text-gray-500">
-            Viser {products.length} af {pagination.totalCount} ørestikker
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <Image 
+                src="/favicon-32x32.png" 
+                alt="&Accessories Logo" 
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
+              <Link href="/" className="font-['Pacifico'] text-2xl text-pink-600">
+                &Accessories
+              </Link>
+            </div>
+            
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link href="/" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Hjem
+              </Link>
+              <Link href="/kategorier" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Kategorier
+              </Link>
+              <Link href="/brands" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Mærker
+              </Link>
+              <Link href="/blog" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Blog
+              </Link>
+              <Link href="/om-os" className="text-gray-700 hover:text-pink-600 transition-colors">
+                Om Os
+              </Link>
+            </nav>
           </div>
         </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-yellow-100 to-pink-100 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Ørestikker</h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Udforsk vores omfattende kollektion af ørestikker. Find elegante ørestikker og meget mere.
+            </p>
+            <div className="mt-4 text-sm text-gray-600">
+              Viser {products.length} af {pagination.totalCount} ørestikker
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
+        <div className="bg-white rounded-2xl shadow-lg border border-pink-100 mb-8">
           <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtre</h3>
             <div className="flex flex-wrap items-center gap-4">
               {/* Brand Filter */}
               <div className="flex items-center gap-2">
@@ -234,7 +284,7 @@ export default function OrestikkerPage() {
                 <select
                   value={selectedBrand}
                   onChange={(e) => handleBrandChange(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="border border-pink-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white"
                 >
                   {brands.map((brand) => (
                     <option key={brand} value={brand}>
@@ -250,7 +300,7 @@ export default function OrestikkerPage() {
                 <select
                   value={selectedMaterial}
                   onChange={(e) => handleMaterialChange(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="border border-pink-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white"
                 >
                   {materials.map((material) => (
                     <option key={material} value={material}>
@@ -266,7 +316,7 @@ export default function OrestikkerPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => handleSortChange(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="border border-pink-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -288,17 +338,20 @@ export default function OrestikkerPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
-              <div key={product.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+              <div key={product.id} className="bg-white rounded-2xl shadow-lg border border-pink-100 overflow-hidden hover:shadow-xl transition-all transform hover:-translate-y-2">
                 <Link 
                   href={`/produkt/${product.id}`}
                   onClick={() => handleProductClick(product)}
                   className="block"
                 >
                   <div className="aspect-square relative overflow-hidden">
-                    <img
+                    <Image
                       src={product.image_url || '/placeholder-jewelry.svg'}
-                      alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      alt={`${product.title} - ${product.brand}`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
                       onError={(e) => {
                         e.currentTarget.src = '/placeholder-jewelry.svg';
                       }}
@@ -371,6 +424,46 @@ export default function OrestikkerPage() {
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-pink-200 mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <Image 
+                  src="/favicon-32x32.png" 
+                  alt="&Accessories Logo" 
+                  width={32}
+                  height={32}
+                  className="w-8 h-8"
+                />
+                <h3 className="font-['Pacifico'] text-xl text-pink-600">
+                  &Accessories
+                </h3>
+              </div>
+              <p className="text-gray-600">
+                Din destination for smukke smykker fra de bedste mærker.
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-gray-800 mb-4">Information</h4>
+              <ul className="space-y-2">
+                <li><Link href="/om-os" className="text-gray-600 hover:text-pink-600 transition-colors">Om Os</Link></li>
+                <li><Link href="/blog" className="text-gray-600 hover:text-pink-600 transition-colors">Blog</Link></li>
+                <li><Link href="/privatlivspolitik" className="text-gray-600 hover:text-pink-600 transition-colors">Privatlivspolitik</Link></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-pink-200 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between">
+            <p className="text-gray-600 text-sm">
+              © 2024 &Accessories. Alle rettigheder forbeholdes.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
