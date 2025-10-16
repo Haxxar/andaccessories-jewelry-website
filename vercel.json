@@ -5,7 +5,7 @@
   },
   "crons": [
     {
-      "path": "/api/cron/update-feeds",
+      "path": "/api/cron/update-supabase",
       "schedule": "0 6 * * *"
     }
   ]
