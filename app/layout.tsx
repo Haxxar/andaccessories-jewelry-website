@@ -23,8 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "&Accessories - Smukke Smykker Online | Danmarks Bedste Smykkeudvalg",
-  description: "Opdag vores kuraterede kollektion af elegante smykker fra førende danske og internationale mærker. Ringe, halskæder, øreringe og meget mere til de bedste priser.",
+  title: "&Accessories - Smukke Smykker til Bedste Priser",
+  description: "Sammenlign priser på ringe, halskæder, øreringe og armbånd fra Danmarks bedste smykkemærker. Find dit perfekte smykke til de bedste priser.",
   keywords: "smykker, ringe, halskæder, øreringe, armbånd, vedhæng, danske smykker, online smykker, smykkeudvalg",
   authors: [{ name: "&Accessories" }],
   creator: "&Accessories",

@@ -11,10 +11,14 @@ export default function UpdateDatabasePage() {
 
   const testConnection = async () => {
     try {
-      setDebugInfo('Testing connection...');
+      setDebugInfo('Testing basic API connection...');
       const response = await fetch('/api/test-simple');
       const data = await response.json();
-      setDebugInfo(`Connection test: ${JSON.stringify(data)}`);
+      setDebugInfo(`Basic API test: ${JSON.stringify(data)}\n\nTesting database connections...`);
+      
+      const dbResponse = await fetch('/api/test-database');
+      const dbData = await dbResponse.json();
+      setDebugInfo(prev => prev + `\nDatabase test: ${JSON.stringify(dbData, null, 2)}`);
     } catch (err) {
       setDebugInfo(`Connection test failed: ${err}`);
     }
@@ -35,9 +39,9 @@ export default function UpdateDatabasePage() {
       }
       setDebugInfo('API connection test passed');
 
-      // Now try the manual endpoint
-      setDebugInfo('Calling update endpoint...');
-      const response = await fetch('/api/cron/update-feeds-manual', {
+      // Now try the simple endpoint first
+      setDebugInfo('Calling simple update endpoint...');
+      const response = await fetch('/api/cron/update-feeds-simple', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -94,6 +98,27 @@ export default function UpdateDatabasePage() {
     }
   };
 
+  const testSimpleUpdate = async () => {
+    try {
+      setDebugInfo('Testing simple update endpoint...');
+      const response = await fetch('/api/cron/update-feeds-simple');
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        setDebugInfo(`Simple update failed: ${response.status} - ${errorText}`);
+        setError(`Simple update failed: ${response.status}`);
+        return;
+      }
+      
+      const data = await response.json();
+      setResult(data);
+      setDebugInfo(`Simple update successful: ${JSON.stringify(data, null, 2)}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Simple update test failed');
+      setDebugInfo(`Simple update error: ${err}`);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -113,7 +138,7 @@ export default function UpdateDatabasePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div className="bg-gradient-to-r from-yellow-100 to-pink-100 rounded-lg p-6">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">
                   Update Database
@@ -164,6 +189,21 @@ export default function UpdateDatabasePage() {
                   className="w-full bg-gradient-to-r from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105"
                 >
                   Test API
+                </button>
+              </div>
+
+              <div className="bg-gradient-to-r from-orange-100 to-red-100 rounded-lg p-6">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                  Simple Update Test
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Test Supabase connection without full update.
+                </p>
+                <button
+                  onClick={testSimpleUpdate}
+                  className="w-full bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105"
+                >
+                  Test Simple
                 </button>
               </div>
             </div>
