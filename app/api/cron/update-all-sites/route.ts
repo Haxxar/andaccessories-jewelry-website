@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { supabaseFeedFetcher } from '@/lib/supabaseFeedFetcher';
 import { multiSiteManager, SiteUpdateResult } from '@/lib/multiSiteManager';
 
-// Set maximum execution time to 10 minutes (for Vercel Pro)
-export const maxDuration = 600;
+// Set maximum execution time to 5 minutes (for Vercel Hobby plan)
+export const maxDuration = 300;
 
 export async function GET(request: NextRequest) {
   try {
