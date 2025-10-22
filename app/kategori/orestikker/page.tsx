@@ -93,7 +93,7 @@ export default function OrestikkerPage() {
       const params = new URLSearchParams({
         page: '1',
         limit: '50',
-        category: 'Ørestikker',
+        category: 'ørestikker',
         ...(selectedBrand !== 'alle' && { brand: selectedBrand }),
         ...(selectedMaterial !== 'alle' && { material: selectedMaterial }),
         sort: sortBy
@@ -260,14 +260,22 @@ export default function OrestikkerPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-yellow-100 to-pink-100 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-r from-yellow-100 to-pink-100 py-16 overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Ørestikker</h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Udforsk vores omfattende kollektion af ørestikker. Find elegante ørestikker og meget mere.
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">Ørestikker</h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+              Udforsk vores omfattende kollektion af ørestikker. Find elegante ørestikker og meget mere til de bedste priser.
             </p>
-            <div className="mt-4 text-sm text-gray-600">
+            <div className="flex justify-center space-x-4 text-sm text-gray-500 mb-4">
+              <span>✓ Gratis levering</span>
+              <span>•</span>
+              <span>✓ Sikker betaling</span>
+              <span>•</span>
+              <span>✓ 30 dages returret</span>
+            </div>
+            <div className="text-sm text-gray-600">
               Viser {products.length} af {pagination.totalCount} ørestikker
             </div>
           </div>
