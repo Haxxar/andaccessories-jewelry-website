@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { formatPriceWithCurrency } from '../lib/priceFormatter';
 import { enhancedAffiliateTracker } from '../lib/enhancedAffiliateTracker';
 
@@ -74,9 +75,12 @@ const sortOptions = [
 ];
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState('alle');
-  const [selectedBrand, setSelectedBrand] = useState('alle');
-  const [sortBy, setSortBy] = useState('random');
+  const searchParams = useSearchParams();
+  
+  // Initialize state from URL parameters
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'alle');
+  const [selectedBrand, setSelectedBrand] = useState(searchParams.get('brand') || 'alle');
+  const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'random');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>(['alle']);
@@ -191,6 +195,23 @@ export default function Home() {
     setSortBy('random'); // Reset to default sort
     fetchProducts();
   };
+
+  // Update state when URL parameters change
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const brandParam = searchParams.get('brand');
+    const sortParam = searchParams.get('sort');
+    
+    if (categoryParam && categoryParam !== selectedCategory) {
+      setSelectedCategory(categoryParam);
+    }
+    if (brandParam && brandParam !== selectedBrand) {
+      setSelectedBrand(brandParam);
+    }
+    if (sortParam && sortParam !== sortBy) {
+      setSortBy(sortParam);
+    }
+  }, [searchParams, selectedCategory, selectedBrand, sortBy]);
 
   // Fetch products and categories on mount and when filters change
   useEffect(() => {
@@ -592,7 +613,17 @@ export default function Home() {
                     {categories.map(category => (
                       <button
                         key={category}
-                        onClick={() => setSelectedCategory(category)}
+                        onClick={() => {
+                          setSelectedCategory(category);
+                          // Update URL without page reload
+                          const url = new URL(window.location.href);
+                          if (category === 'alle') {
+                            url.searchParams.delete('category');
+                          } else {
+                            url.searchParams.set('category', category);
+                          }
+                          window.history.pushState({}, '', url.toString());
+                        }}
                         className={`w-full text-left px-3 py-2 rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                           selectedCategory === category
                             ? 'bg-yellow-100 text-pink-700 border border-pink-200'
@@ -612,7 +643,17 @@ export default function Home() {
                     {brands.map(brand => (
                       <button
                         key={brand}
-                        onClick={() => setSelectedBrand(brand)}
+                        onClick={() => {
+                          setSelectedBrand(brand);
+                          // Update URL without page reload
+                          const url = new URL(window.location.href);
+                          if (brand === 'alle') {
+                            url.searchParams.delete('brand');
+                          } else {
+                            url.searchParams.set('brand', brand);
+                          }
+                          window.history.pushState({}, '', url.toString());
+                        }}
                         className={`w-full text-left px-3 py-2 rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                           selectedBrand === brand
                             ? 'bg-yellow-100 text-pink-700 border border-pink-200'
