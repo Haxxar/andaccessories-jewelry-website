@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatPriceWithCurrency } from '../../../lib/priceFormatter';
-import { useAffiliateTracking } from '../../../lib/affiliateTracker';
+import { enhancedAffiliateTracker } from '../../../lib/enhancedAffiliateTracker';
 import Head from 'next/head';
 
 interface Product {
@@ -81,7 +81,8 @@ export default function OrestikkerPage() {
     hasPrev: false
   });
 
-  const { trackClick } = useAffiliateTracking();
+  // Enhanced affiliate tracking that works across browser sessions
+  const trackClick = (url: string) => enhancedAffiliateTracker.trackClick(url);
 
   // Fetch products function
   const fetchProducts = useCallback(async () => {
@@ -147,6 +148,8 @@ export default function OrestikkerPage() {
 
   // Fetch data on mount and when filters change
   useEffect(() => {
+    // Initialize enhanced affiliate tracking
+    enhancedAffiliateTracker.setTracking();
     fetchProducts();
   }, [fetchProducts]);
 

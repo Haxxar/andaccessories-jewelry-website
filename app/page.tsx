@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatPriceWithCurrency } from '../lib/priceFormatter';
-import { useAffiliateTracking } from '../lib/affiliateTracker';
+import { enhancedAffiliateTracker } from '../lib/enhancedAffiliateTracker';
 
 interface Product {
   id: number;
@@ -97,8 +97,8 @@ export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   
-  // Affiliate tracking
-  const { trackClick } = useAffiliateTracking();
+  // Enhanced affiliate tracking that works across browser sessions
+  const trackClick = (url: string) => enhancedAffiliateTracker.trackClick(url);
 
   // Search function
   const performSearch = useCallback(async (query: string) => {
@@ -194,6 +194,9 @@ export default function Home() {
 
   // Fetch products and categories on mount and when filters change
   useEffect(() => {
+    // Initialize enhanced affiliate tracking
+    enhancedAffiliateTracker.setTracking();
+    
     if (!searchQuery.trim()) {
       fetchProducts();
     }

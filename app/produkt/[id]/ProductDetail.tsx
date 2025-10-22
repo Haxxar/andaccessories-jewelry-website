@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { formatPriceWithCurrency } from '../../../lib/priceFormatter';
-import { useAffiliateTracking } from '../../../lib/affiliateTracker';
+import { enhancedAffiliateTracker } from '../../../lib/enhancedAffiliateTracker';
 
 interface Product {
   id: number;
@@ -40,9 +40,13 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { trackClick } = useAffiliateTracking();
+  // Enhanced affiliate tracking that works across browser sessions
+  const trackClick = (url: string) => enhancedAffiliateTracker.trackClick(url);
 
   useEffect(() => {
+    // Initialize enhanced affiliate tracking
+    enhancedAffiliateTracker.setTracking();
+    
     async function fetchProduct() {
       try {
         setLoading(true);
