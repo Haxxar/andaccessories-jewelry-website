@@ -840,7 +840,7 @@ export default function Home() {
               </Link>
 
               <Link 
-                href="/kategori/halskader" 
+                href="/kategori/necklaces" 
                 className="flex flex-col items-center p-4 rounded-xl hover:bg-yellow-50 transition-colors group"
               >
                 <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">
@@ -851,7 +851,7 @@ export default function Home() {
               </Link>
 
               <Link 
-                href="/kategori/oreringe" 
+                href="/kategori/earrings" 
                 className="flex flex-col items-center p-4 rounded-xl hover:bg-pink-50 transition-colors group"
               >
                 <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-pink-200 transition-colors">
@@ -862,7 +862,7 @@ export default function Home() {
               </Link>
 
               <Link 
-                href="/kategori/armband" 
+                href="/kategori/bracelets" 
                 className="flex flex-col items-center p-4 rounded-xl hover:bg-yellow-50 transition-colors group"
               >
                 <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">
@@ -873,7 +873,7 @@ export default function Home() {
               </Link>
 
               <Link 
-                href="/kategori/vedhang" 
+                href="/kategori/pendants" 
                 className="flex flex-col items-center p-4 rounded-xl hover:bg-pink-50 transition-colors group"
               >
                 <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-pink-200 transition-colors">
@@ -884,7 +884,7 @@ export default function Home() {
               </Link>
 
               <Link 
-                href="/kategori/orestikker" 
+                href="/kategori/ear-studs" 
                 className="flex flex-col items-center p-4 rounded-xl hover:bg-yellow-50 transition-colors group"
               >
                 <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">

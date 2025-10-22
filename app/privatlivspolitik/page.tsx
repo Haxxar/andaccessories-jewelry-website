@@ -58,10 +58,10 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-gray-800 mb-4">Kategorier</h3>
             <ul className="space-y-2">
-              <li><a href="/kategori/oreringe" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Øreringe</a></li>
+              <li><a href="/kategori/earrings" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Øreringe</a></li>
               <li><a href="/kategori/ringe" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Ringe</a></li>
-              <li><a href="/kategori/halskader" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Halskæder</a></li>
-              <li><a href="/kategori/armband" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Armbånd</a></li>
+              <li><a href="/kategori/necklaces" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Halskæder</a></li>
+              <li><a href="/kategori/bracelets" className="text-gray-600 hover:text-yellow-500 transition-colors text-sm">Armbånd</a></li>
             </ul>
           </div>
 

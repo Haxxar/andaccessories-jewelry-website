@@ -94,12 +94,12 @@ export default function CategoriesPage() {
 
   const getEnglishName = (category: string): string => {
     const mapping: Record<string, string> = {
-      'Øreringe': 'oreringe',
-      'Halskæder': 'halskader',
-      'Ringe': 'ringe',
-      'Armbånd': 'armband',
-      'Vedhæng': 'vedhang',
-      'Ørestikker': 'orestikker',
+      'øreringe': 'earrings',
+      'halskæder': 'necklaces',
+      'ringe': 'ringe',
+      'armbånd': 'bracelets',
+      'vedhæng': 'pendants',
+      'ørestikker': 'ear-studs',
       'andet': 'andet'
     };
     return mapping[category] || category.toLowerCase();
