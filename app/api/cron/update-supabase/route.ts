@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { productFeedFetcher } from '@/lib/productFeedFetcher';
+import { supabaseFeedFetcher } from '@/lib/supabaseFeedFetcher';
 
 // Set maximum execution time to 5 minutes (for Vercel Pro)
 export const maxDuration = 300;
@@ -191,7 +191,7 @@ async function fetchAllProducts() {
       console.log(`🔄 Processing feed: ${feedUrl}`);
       
       // Add individual feed timeout
-      const feedPromise = productFeedFetcher.fetchSingleFeed(feedUrl);
+      const feedPromise = supabaseFeedFetcher.fetchSingleFeed(feedUrl);
       const timeoutPromise = new Promise<never>((_, reject) => 
         setTimeout(() => reject(new Error('Feed timeout')), 15000) // 15 second timeout per feed
       );
@@ -202,7 +202,7 @@ async function fetchAllProducts() {
       let normalizedCount = 0;
       for (const rawProduct of rawProducts) {
         try {
-          const normalized = productFeedFetcher.normalizeProduct(rawProduct, feedUrl);
+          const normalized = supabaseFeedFetcher.normalizeProduct(rawProduct, feedUrl);
           if (normalized) {
             allProducts.push(normalized);
             normalizedCount++;
