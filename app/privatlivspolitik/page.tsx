@@ -80,13 +80,26 @@ const Footer = () => {
           <p className="text-gray-500 text-sm">
             © 2024 &Accessories. Alle rettigheder forbeholdes.
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="/privatlivspolitik" className="text-gray-500 hover:text-yellow-500 transition-colors text-sm">
-              Privatlivspolitik
-            </a>
-            <a href="/handelsbetingelser" className="text-gray-500 hover:text-yellow-500 transition-colors text-sm">
-              Handelsbetingelser
-            </a>
+          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 mt-4 md:mt-0">
+            <div className="flex space-x-6">
+              <a href="/privatlivspolitik" className="text-gray-500 hover:text-yellow-500 transition-colors text-sm">
+                Privatlivspolitik
+              </a>
+              <a href="/handelsbetingelser" className="text-gray-500 hover:text-yellow-500 transition-colors text-sm">
+                Handelsbetingelser
+              </a>
+            </div>
+            <div className="text-center sm:text-right">
+              <p className="text-gray-400 text-xs mb-1">Besøg også vores anden affiliate side:</p>
+              <a 
+                href="https://equinord.dk" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-yellow-500 transition-colors text-sm font-semibold"
+              >
+                Equinord.dk →
+              </a>
+            </div>
           </div>
         </div>
       </div>

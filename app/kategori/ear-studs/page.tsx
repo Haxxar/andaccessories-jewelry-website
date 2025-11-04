@@ -472,6 +472,17 @@ export default function OrestikkerPage() {
             <p className="text-gray-600 text-sm">
               © 2024 &Accessories. Alle rettigheder forbeholdes.
             </p>
+            <div className="mt-4 sm:mt-0 text-center sm:text-right">
+              <p className="text-gray-500 text-xs mb-1">Besøg også vores anden affiliate side:</p>
+              <a 
+                href="https://equinord.dk" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-pink-600 transition-colors text-sm font-semibold"
+              >
+                Equinord.dk →
+              </a>
+            </div>
           </div>
         </div>
       </footer>
