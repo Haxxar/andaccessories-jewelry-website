@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
+import type { Components } from 'react-markdown';
 
 interface BlogPostProps {
   post: {
@@ -389,7 +390,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                     {children}
                   </a>
                 ),
-              }}
+              } as Components & Record<string, any>}
             >
               {post.content}
             </ReactMarkdown>
