@@ -299,7 +299,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                   </blockquote>
                 ),
                 // Custom components for professional callouts
-                'tip': ({ children }) => (
+                'tip': ({ children }: { children?: React.ReactNode }) => (
                   <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-400 rounded-r-lg p-6 my-8 shadow-sm">
                     <div className="flex items-start">
                       <div className="text-green-500 text-2xl mr-4 mt-1">
@@ -312,7 +312,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                     </div>
                   </div>
                 ),
-                'warning': ({ children }) => (
+                'warning': ({ children }: { children?: React.ReactNode }) => (
                   <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-400 rounded-r-lg p-6 my-8 shadow-sm">
                     <div className="flex items-start">
                       <div className="text-yellow-500 text-2xl mr-4 mt-1">
@@ -325,7 +325,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                     </div>
                   </div>
                 ),
-                'info': ({ children }) => (
+                'info': ({ children }: { children?: React.ReactNode }) => (
                   <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border-l-4 border-blue-400 rounded-r-lg p-6 my-8 shadow-sm">
                     <div className="flex items-start">
                       <div className="text-blue-500 text-2xl mr-4 mt-1">
