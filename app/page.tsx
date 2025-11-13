@@ -365,9 +365,9 @@ function HomeContent() {
                 height={32}
                 className="w-8 h-8"
               />
-              <h1 className="font-['Pacifico'] text-2xl text-pink-600">
+              <div className="font-['Pacifico'] text-2xl text-pink-600">
                 &Accessories
-              </h1>
+              </div>
             </div>
             
             <nav className="hidden md:flex items-center space-x-8">
@@ -568,14 +568,14 @@ function HomeContent() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
               Smykker fra Danmarks største mærker
               <span className="block text-pink-600">
                 – samlet ét sted
               </span>
-            </h2>
+            </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Få overblik over eksklusive kollektioner og se de nyeste rabatter på højkvalitetssmykker fra flere af landets førende leverandører.
+              Få overblik over eksklusive kollektioner og se de nyeste rabatter på højkvalitetssmykker fra flere af landets førende leverandører. Udforsk vores <Link href="/kategorier" className="text-pink-600 hover:underline font-medium">smykkekategorier</Link> eller <Link href="/brands" className="text-pink-600 hover:underline font-medium">se alle mærker</Link>.
             </p>
             <button
               onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
@@ -822,7 +822,7 @@ function HomeContent() {
               Hvorfor Vælge &Accessories?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Vi samler de bedste smykker fra Danmarks førende leverandører på én platform, så du nemt kan finde det perfekte smykke til enhver lejlighed.
+              Vi samler de bedste smykker fra Danmarks førende leverandører på én platform, så du nemt kan finde det perfekte smykke til enhver lejlighed. Udforsk vores <Link href="/kategorier" className="text-pink-600 hover:underline font-medium">smykkekategorier</Link> eller se <Link href="/brands" className="text-pink-600 hover:underline font-medium">alle mærker</Link>.
             </p>
           </div>
 
@@ -835,7 +835,7 @@ function HomeContent() {
                 Sammenlign Priser Nemt
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Se priser fra flere autoriserede forhandlere side om side. Find de bedste tilbud på ringe, halskæder, øreringe, armbånd og meget mere - alt samlet ét sted.
+                Se priser fra flere autoriserede forhandlere side om side. Find de bedste tilbud på <Link href="/kategori/ringe" className="text-pink-600 hover:underline">ringe</Link>, <Link href="/kategori/necklaces" className="text-pink-600 hover:underline">halskæder</Link>, <Link href="/kategori/earrings" className="text-pink-600 hover:underline">øreringe</Link>, <Link href="/kategori/bracelets" className="text-pink-600 hover:underline">armbånd</Link> og meget mere - alt samlet ét sted. <Link href="/kategorier" className="text-pink-600 hover:underline font-medium">Se alle kategorier →</Link>
               </p>
             </div>
 
@@ -847,7 +847,7 @@ function HomeContent() {
                 Spar Tid og Penge
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Undgå at besøge flere webshops. Vi opdaterer vores produktkatalog dagligt med de nyeste kollektioner og rabatter, så du altid får de bedste priser og aktuelle tilbud.
+                Undgå at besøge flere webshops. Vi opdaterer vores produktkatalog dagligt med de nyeste kollektioner og rabatter, så du altid får de bedste priser og aktuelle tilbud. <Link href="/brands" className="text-pink-600 hover:underline font-medium">Udforsk vores mærker →</Link>
               </p>
             </div>
 
@@ -859,7 +859,7 @@ function HomeContent() {
                 Kvalitet og Ægthed
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Alle smykker kommer fra verificerede og autoriserede forhandlere i Danmark. Vi samarbejder kun med pålidelige leverandører af ægte guld, sølv og ædelstene.
+                Alle smykker kommer fra verificerede og autoriserede forhandlere i Danmark. Vi samarbejder kun med pålidelige leverandører af ægte guld, sølv og ædelstene. <Link href="/om-os" className="text-pink-600 hover:underline font-medium">Læs mere om os →</Link>
               </p>
             </div>
           </div>
@@ -953,7 +953,7 @@ function HomeContent() {
                 Hvad er &Accessories?
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                &Accessories er Danmarks smykke-sammenligningsplatform, hvor du kan opdage og sammenligne smykker fra flere af landets førende mærker og leverandører - alt samlet ét sted. Vi gør det nemt at finde de bedste tilbud og nyeste kollektioner.
+                &Accessories er Danmarks smykke-sammenligningsplatform, hvor du kan opdage og sammenligne smykker fra flere af landets førende mærker og leverandører - alt samlet ét sted. Vi gør det nemt at finde de bedste tilbud og nyeste kollektioner. <Link href="/kategorier" className="text-pink-600 hover:underline">Udforsk kategorier</Link> eller <Link href="/brands" className="text-pink-600 hover:underline">se alle mærker</Link>.
               </p>
             </div>
 
@@ -963,7 +963,7 @@ function HomeContent() {
                 Kan jeg købe smykker direkte hos jer?
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Vi er en sammenligningsplatform, så når du finder det perfekte smykke, sendes du videre til den officielle butik hvor du kan gennemføre dit køb sikkert og direkte hos den autoriserede forhandler.
+                Vi er en sammenligningsplatform, så når du finder det perfekte smykke, sendes du videre til den officielle butik hvor du kan gennemføre dit køb sikkert og direkte hos den autoriserede forhandler. <Link href="/" className="text-pink-600 hover:underline">Se vores produktudvalg</Link>.
               </p>
             </div>
 
@@ -973,7 +973,7 @@ function HomeContent() {
                 Hvor ofte opdateres produkterne?
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Vores produktdatabase opdateres automatisk dagligt for at sikre, at du altid ser de nyeste kollektioner, aktuelle priser og tilgængelighed. Vi samarbejder direkte med leverandørerne for at give dig den mest opdaterede information.
+                Vores produktdatabase opdateres automatisk dagligt for at sikre, at du altid ser de nyeste kollektioner, aktuelle priser og tilgængelighed. Vi samarbejder direkte med leverandørerne for at give dig den mest opdaterede information. <Link href="/" className="text-pink-600 hover:underline">Se de nyeste produkter</Link>.
               </p>
             </div>
 
